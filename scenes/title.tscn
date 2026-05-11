@@ -28,7 +28,7 @@ uppercase = true
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 309.0
+offset_top = 288.0
 offset_right = 655.0
 offset_bottom = 343.0
 grow_horizontal = 2
@@ -46,26 +46,8 @@ theme_override_colors/font_pressed_color = Color(1, 0.8901961, 0.6039216, 1)
 theme_override_colors/font_hover_color = Color(1, 0.7490196, 0.42745098, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_wosw1")
-theme_override_font_sizes/font_size = 25
-text = "start"
-flat = true
-
-[node name="Options" type="Button" parent="ButtonManager" unique_id=786618315]
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(1, 0.8901961, 0.6039216, 1)
-theme_override_colors/font_hover_color = Color(1, 0.7490196, 0.42745098, 1)
-theme_override_fonts/font = ExtResource("2_wosw1")
-theme_override_font_sizes/font_size = 25
-text = "options"
-flat = true
-
-[node name="Quit" type="Button" parent="ButtonManager" unique_id=1934043227]
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(1, 0.8901961, 0.6039216, 1)
-theme_override_colors/font_hover_color = Color(1, 0.7490196, 0.42745098, 1)
-theme_override_fonts/font = ExtResource("2_wosw1")
-theme_override_font_sizes/font_size = 25
-text = "quit"
+theme_override_font_sizes/font_size = 35
+text = "START"
 flat = true
 
 [node name="RowboatPixel" type="Sprite2D" parent="." unique_id=2146178370]
@@ -82,5 +64,3 @@ scale = Vector2(0.73765427, 0.7376543)
 texture = ExtResource("5_b3w7a")
 
 [connection signal="pressed" from="ButtonManager/start" to="ButtonManager" method="_on_start_pressed"]
-[connection signal="pressed" from="ButtonManager/Options" to="ButtonManager" method="_on_options_pressed"]
-[connection signal="pressed" from="ButtonManager/Quit" to="ButtonManager" method="_on_quit_pressed"]

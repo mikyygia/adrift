@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Adrift"
-run/main_scene="uid://dsck06mxj3av0"
+run/main_scene="uid://cgvg0brio7bmh"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -15,6 +15,7 @@
 [ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="13_5cvaq"]
 [ext_resource type="Texture2D" uid="uid://fkr4rln2gp3f" path="res://assets/waiting-lady-assets/present.png" id="14_ihxxa"]
 [ext_resource type="Texture2D" uid="uid://3ospsk6l5bqu" path="res://assets/waiting-lady-assets/cake.png" id="15_ulosv"]
+[ext_resource type="Texture2D" uid="uid://bworhoa5s0npq" path="res://assets/character/boy_death.png" id="16_ulosv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frcnd"]
 size = Vector2(43, 24)
@@ -91,6 +92,7 @@ scale = Vector2(1.6607144, 1.6607145)
 texture = ExtResource("12_bhpuc")
 
 [node name="TutorialPanel" type="Panel" parent="." unique_id=667933506]
+visible = false
 self_modulate = Color(0, 0, 0, 1)
 offset_top = -6.0
 offset_right = 657.0
@@ -198,5 +200,75 @@ position = Vector2(593.0001, 320.00003)
 rotation = 0.16231562
 scale = Vector2(2.168385, 2.168385)
 texture = ExtResource("14_ihxxa")
+
+[node name="DeathPanel" type="Panel" parent="." unique_id=457713306]
+visible = false
+offset_top = -9.0
+offset_right = 663.0
+offset_bottom = 382.0
+
+[node name="ColorRect" type="ColorRect" parent="DeathPanel" unique_id=291256127]
+layout_mode = 0
+offset_right = 646.0
+offset_bottom = 375.0
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="DeathPanel" unique_id=10191473]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 124.0
+offset_right = 378.0
+offset_bottom = 205.0
+theme_override_fonts/font = ExtResource("13_5cvaq")
+theme_override_font_sizes/font_size = 30
+text = "you didn't 
+make it ..."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DeathPanel" unique_id=871385371]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.5
+offset_top = 59.5
+offset_right = 78.5
+offset_bottom = 99.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="TryAgain" type="Button" parent="DeathPanel/HBoxContainer" unique_id=1930103988]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_5cvaq")
+text = "Try Again"
+
+[node name="Quit" type="Button" parent="DeathPanel/HBoxContainer" unique_id=594891131]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_5cvaq")
+text = "Quit"
+
+[node name="Control" type="Control" parent="DeathPanel" unique_id=590353580]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BoyDeath" type="Sprite2D" parent="DeathPanel/Control" unique_id=1822274966]
+texture_filter = 1
+position = Vector2(453.00003, 164)
+scale = Vector2(4.1093755, 4.1093755)
+texture = ExtResource("16_ulosv")
+
+[node name="Cake" type="Sprite2D" parent="DeathPanel/Control" unique_id=1111859185]
+texture_filter = 1
+position = Vector2(402, 198)
+texture = ExtResource("15_ulosv")
+
+[node name="Cake2" type="Sprite2D" parent="DeathPanel/Control" unique_id=1967985414]
+texture_filter = 1
+position = Vector2(434, 205)
+scale = Vector2(0.71875, 0.71875)
+texture = ExtResource("15_ulosv")
 
 [connection signal="pressed" from="TutorialPanel/Proceed" to="." method="_on_proceed_pressed"]

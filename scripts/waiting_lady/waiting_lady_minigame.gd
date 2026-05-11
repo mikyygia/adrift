@@ -12,9 +12,12 @@ signal minigame_finished(outcome: String)
 @onready var lady_overlay = $UiOverlay
 @onready var dialogue_label = $UiOverlay/DialogueLabel  # adjust path to match your scene
 
-# states
+# panel
 @onready var tutorial_panel = $TutorialPanel;
 @onready var proceed_button = $TutorialPanel/Proceed;
+@onready var death_panel = $DeathPanel;
+@onready var try_again_button = $DeathPanel/HBoxContainer/TryAgain;
+@onready var quit_button = $DeathPanel/HBoxContainer/Quit;
 
 var lives: int = 2
 var current_stage: int = 1
@@ -36,9 +39,12 @@ func _ready() -> void:
 	cake_spawner.cake_hit_player.connect(_on_cake_hit)
 	present_spawner.all_collected.connect(_on_stage_cleared)
 	proceed_button.pressed.connect(_on_proceed_pressed)
+	try_again_button.pressed.connect(_on_try_again)
+	quit_button.pressed.connect(_on_quit)
 	
 	lady_overlay.visible = false
-	tutorial_panel.visible = true  # show tutorial, game hasn't started yet
+	tutorial_panel.visible = true
+	death_panel.visible = false;
 
 func _on_proceed_pressed() -> void:
 	tutorial_panel.visible = false
@@ -89,4 +95,22 @@ func _show_dialogue(text: String, on_done: Callable) -> void:
 
 func _lose() -> void:
 	cake_spawner.stop()
-	emit_signal("minigame_finished", "dead")
+	death_panel.visible = true;
+
+	# presents bounce around screen on death -> personality effect
+
+	# to clear all presents:
+	#for child in get_children():
+		#if child is Area2D:
+			#child.queue_free()
+	#death_panel.visible = true
+
+func _on_try_again():
+	lives = 2;
+	current_stage = 1
+	_update_hearts()
+	death_panel.visible = false
+	tutorial_panel.visible = true  # back to tutorial screen
+
+func _on_quit() -> void:
+	emit_signal("minigame_finished", "dead")  # main.gd handles returning to game
