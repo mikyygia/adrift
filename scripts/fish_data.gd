@@ -88,7 +88,7 @@ static func grumpyOldMan() -> Fish:
 		"default": preload("res://assets/fish portrait/grumpy-man/man.PNG"),
 		"angry": preload("res://assets/fish portrait/grumpy-man/man_angry.PNG"),
 	}
-	
+
 	f.dialogue = [
 		# 0
 		{

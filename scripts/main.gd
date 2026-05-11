@@ -41,7 +41,6 @@ func _ready() -> void:
 	await get_tree().create_timer(3).timeout;
 	$Sky/Dialogue/Label.text = "...\npress [space] to proceed"
 
-
 # ---------------------------------------------------------------------------
 # Input
 # ---------------------------------------------------------------------------
@@ -118,14 +117,14 @@ func showHint (text: String):
 func onFishingEnd(results):
 	characterBoat.visible = true;
 	fishingStatus.visible = true;
-	
+
 	if results == 1: # you caught a fish
 		GameState.currentFish = pickRandomFish();
-		
+
 		if GameState.currentFish == null:
 			fishingStatus.text = "The water is quiet... nothing left to find."
 			return;
-		
+
 		onDialoguePresent = true;
 		showDialogue();
 	else:
@@ -141,11 +140,11 @@ func pickRandomFish():
 	if not firstFishSeen:
 		firstFishSeen = true;
 		return FishData.getFirstFish();
-		
+
 	# weighted roll : 70% common, 30% heavy, or whatever feels right
 	var roll = randf();
 	var pool: Array;
-	
+
 	if roll < 0.7:
 		pool = FishData.getGentlePool();
 		if pool.is_empty():  # fallback if all gentle fish freed

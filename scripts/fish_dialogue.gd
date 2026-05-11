@@ -41,9 +41,6 @@ func setup(f: Fish):
 	current_step = 0
 	alias_label.text = fish.fish_name.to_upper()
 	
-	#if fish.portrait:
-		#portrait_rect.texture = fish.portrait
-	
 	updatePortrait("default");
 		
 	_show_step(current_step)
@@ -52,15 +49,21 @@ func updatePortrait(emotion: String):
 	if GameState.currentFish == null:
 		return;
 		
-#	set a default portrait
+	# set a default portrait
 	var tex = GameState.currentFish.portraits.get(
 		emotion,
 		GameState.currentFish.portraits.get("default")
 	)
 	
+	# if texture is set then set it
 	if tex:
 		portrait_rect.texture = tex
 
+# ---------------------------------------------------------------------------
+#  the gear of the dialogue engine:
+# - changes fish portrait based on dialogue
+# - jumps to the next dialogue if applicable
+# ---------------------------------------------------------------------------
 func _show_step(index: int) -> void:
 	if index >= fish.dialogue.size():
 		_end("escaped")

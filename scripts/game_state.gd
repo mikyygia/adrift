@@ -13,8 +13,10 @@ var soul_tier: int = 1           # current unlock tier
 var memory_fragments: Array[String] = []
 
 # souls
-var freed_souls: Array[String] = [] # # permanently gone, gave soul fragment
+var freed_souls: Array[String] = [] # permanently gone, gave soul fragment
 var flags: Dictionary = {} # # cross-fish story flags
+
+
 
 # freeing souls by fish_id
 func free_soul(fish_id: String) -> void:

@@ -12,6 +12,10 @@ signal minigame_finished(outcome: String)
 @onready var lady_overlay = $UiOverlay
 @onready var dialogue_label = $UiOverlay/DialogueLabel  # adjust path to match your scene
 
+# states
+@onready var tutorial_panel = $TutorialPanel;
+@onready var proceed_button = $TutorialPanel/Proceed;
+
 var lives: int = 2
 var current_stage: int = 1
 
@@ -23,9 +27,21 @@ const STAGE_DIALOGUE = {
 const WIN_DIALOGUE = "I... I'm sorry. I shouldn't have. I just... I only ever wanted a friend."
 
 func _ready() -> void:
+	# before the game begins, there should be a screen that prompt users to click a button before proceeding
+	# show movement
+	# show how to win
+	# show how to die
+	
+	# !! always connect signals first regardless of start screen
 	cake_spawner.cake_hit_player.connect(_on_cake_hit)
 	present_spawner.all_collected.connect(_on_stage_cleared)
+	proceed_button.pressed.connect(_on_proceed_pressed)
+	
 	lady_overlay.visible = false
+	tutorial_panel.visible = true  # show tutorial, game hasn't started yet
+
+func _on_proceed_pressed() -> void:
+	tutorial_panel.visible = false
 	start_stage(1)
 
 func start_stage(s: int) -> void:

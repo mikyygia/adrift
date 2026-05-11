@@ -12,6 +12,9 @@
 [ext_resource type="Script" uid="uid://cgsa7nvikpqb5" path="res://scripts/waiting_lady/present_spawner.gd" id="11_bhpuc"]
 [ext_resource type="PackedScene" uid="uid://dtjorosl10sst" path="res://scenes/waiting_lady/present.tscn" id="12_5cvaq"]
 [ext_resource type="Texture2D" uid="uid://dwkik8ntor5eb" path="res://assets/waiting-lady-assets/hearts.png" id="12_bhpuc"]
+[ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="13_5cvaq"]
+[ext_resource type="Texture2D" uid="uid://fkr4rln2gp3f" path="res://assets/waiting-lady-assets/present.png" id="14_ihxxa"]
+[ext_resource type="Texture2D" uid="uid://3ospsk6l5bqu" path="res://assets/waiting-lady-assets/cake.png" id="15_ulosv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frcnd"]
 size = Vector2(43, 24)
@@ -25,7 +28,6 @@ scale = Vector2(0.39598835, 0.3959883)
 texture = ExtResource("1_wmx42")
 
 [node name="UiOverlay" type="Sprite2D" parent="." unique_id=2017043720]
-visible = false
 position = Vector2(597.6875, 44.919052)
 scale = Vector2(0.3473501, 0.3473501)
 texture = ExtResource("3_y7tm1")
@@ -37,11 +39,13 @@ scale = Vector2(0.47416008, 0.47416008)
 texture = ExtResource("2_frcnd")
 
 [node name="DialogueLabel" type="Label" parent="UiOverlay" unique_id=1583906967]
-offset_left = -603.67773
+offset_left = -733.23
 offset_top = -94.77197
 offset_right = -135.61548
 offset_bottom = 83.72229
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
+text = "something"
 autowrap_mode = 2
 
 [node name="player" type="CharacterBody2D" parent="." unique_id=1678963473 groups=["player"]]
@@ -85,3 +89,114 @@ texture_filter = 1
 position = Vector2(78, 22)
 scale = Vector2(1.6607144, 1.6607145)
 texture = ExtResource("12_bhpuc")
+
+[node name="TutorialPanel" type="Panel" parent="." unique_id=667933506]
+self_modulate = Color(0, 0, 0, 1)
+offset_top = -6.0
+offset_right = 657.0
+offset_bottom = 370.0
+
+[node name="ColorRect" type="ColorRect" parent="TutorialPanel" unique_id=1627139299]
+layout_mode = 0
+offset_right = 646.0
+offset_bottom = 375.0
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TutorialPanel" unique_id=659175777]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 656.0
+offset_bottom = 295.0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Title" type="Label" parent="TutorialPanel/VBoxContainer" unique_id=757730276]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_5cvaq")
+theme_override_font_sizes/font_size = 26
+text = "Waiting Lady Minigame Tutorial"
+horizontal_alignment = 1
+
+[node name="Goal" type="Label" parent="TutorialPanel/VBoxContainer" unique_id=1623782427]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_5cvaq")
+text = "goal: collect the presents and dodge the cake"
+horizontal_alignment = 1
+
+[node name="Controls" type="Label" parent="TutorialPanel/VBoxContainer" unique_id=1792047308]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_5cvaq")
+theme_override_font_sizes/font_size = 16
+text = "movement: [<] and [>] arrow keys"
+horizontal_alignment = 1
+
+[node name="Proceed" type="Button" parent="TutorialPanel" unique_id=1187554714]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 280.0
+offset_right = 389.0
+offset_bottom = 309.0
+theme_override_fonts/font = ExtResource("13_5cvaq")
+text = "start
+"
+
+[node name="Control" type="Control" parent="TutorialPanel" unique_id=379658377]
+anchors_preset = 0
+offset_top = 6.0
+offset_right = 40.0
+offset_bottom = 46.0
+
+[node name="Present" type="Sprite2D" parent="TutorialPanel/Control" unique_id=1850028621]
+texture_filter = 1
+position = Vector2(62, 320)
+rotation = -0.122173056
+scale = Vector2(2.375, 2.375)
+texture = ExtResource("14_ihxxa")
+
+[node name="Present2" type="Sprite2D" parent="TutorialPanel/Control" unique_id=1817260657]
+texture_filter = 1
+position = Vector2(137, 311)
+rotation = 0.24260077
+scale = Vector2(2.375, 2.375)
+texture = ExtResource("14_ihxxa")
+
+[node name="Cake3" type="Sprite2D" parent="TutorialPanel/Control" unique_id=1324666066]
+texture_filter = 1
+position = Vector2(65, 271)
+scale = Vector2(1.5302721, 1.5302721)
+texture = ExtResource("15_ulosv")
+
+[node name="Present3" type="Sprite2D" parent="TutorialPanel/Control" unique_id=998990364]
+texture_filter = 1
+position = Vector2(98, 307.00003)
+rotation = -0.024434611
+scale = Vector2(2.671026, 2.671026)
+texture = ExtResource("14_ihxxa")
+
+[node name="Present4" type="Sprite2D" parent="TutorialPanel/Control" unique_id=430220355]
+texture_filter = 1
+position = Vector2(506, 315.00003)
+rotation = -0.122173056
+scale = Vector2(2.375, 2.375)
+texture = ExtResource("14_ihxxa")
+
+[node name="Cake2" type="Sprite2D" parent="TutorialPanel/Control" unique_id=783598947]
+texture_filter = 1
+position = Vector2(545, 312)
+scale = Vector2(2.0605445, 2.0605445)
+texture = ExtResource("15_ulosv")
+
+[node name="Cake4" type="Sprite2D" parent="TutorialPanel/Control" unique_id=937944389]
+texture_filter = 1
+position = Vector2(122, 326)
+scale = Vector2(1.1713862, 1.1713862)
+texture = ExtResource("15_ulosv")
+
+[node name="Present6" type="Sprite2D" parent="TutorialPanel/Control" unique_id=1951075087]
+texture_filter = 1
+position = Vector2(593.0001, 320.00003)
+rotation = 0.16231562
+scale = Vector2(2.168385, 2.168385)
+texture = ExtResource("14_ihxxa")
+
+[connection signal="pressed" from="TutorialPanel/Proceed" to="." method="_on_proceed_pressed"]
