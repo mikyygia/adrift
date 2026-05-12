@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://bworhoa5s0npq" path="res://assets/character/boy_death.png" id="16_ulosv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frcnd"]
-size = Vector2(43, 24)
+size = Vector2(43, 27)
 
 [node name="waiting_lady_minigame" type="Node2D" unique_id=1253465488]
 script = ExtResource("1_ebao5")
@@ -63,7 +63,7 @@ position = Vector2(166, 257)
 texture = ExtResource("5_q6n6n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player" unique_id=632006502]
-position = Vector2(167.5, 245)
+position = Vector2(167.5, 243.5)
 shape = SubResource("RectangleShape2D_frcnd")
 
 [node name="CakeSpawner" type="Node" parent="." unique_id=1859274357]

@@ -67,9 +67,12 @@ func _update_hearts() -> void:
 
 func _on_stage_cleared() -> void:
 	cake_spawner.stop()
+	print("STAGE CLEARED — current stage: ", current_stage)
 	
 	if current_stage >= 3:
+		print("EMITTING WON")
 		_show_dialogue(WIN_DIALOGUE, func():
+			print("WIN DIALOGUE DONE — emitting minigame_finished won")
 			emit_signal("minigame_finished", "won")
 		)
 	else:
@@ -97,9 +100,9 @@ func _lose() -> void:
 	cake_spawner.stop()
 	death_panel.visible = true;
 
-	# presents bounce around screen on death -> personality effect
+	# keeping presents still bounce around screen on death for personality effect
 
-	# to clear all presents:
+	# code to clear all presents on death:
 	#for child in get_children():
 		#if child is Area2D:
 			#child.queue_free()
@@ -113,4 +116,5 @@ func _on_try_again():
 	tutorial_panel.visible = true  # back to tutorial screen
 
 func _on_quit() -> void:
+	print("QUIT PRESSED — emitting minigame_finished dead")
 	emit_signal("minigame_finished", "dead")  # main.gd handles returning to game

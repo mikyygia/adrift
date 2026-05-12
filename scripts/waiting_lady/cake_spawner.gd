@@ -11,8 +11,8 @@ var active: bool = false
 
 # stage configs — [min_cakes, max_cakes, min_speed, max_speed]
 const STAGE_CONFIGS = [
-	{ "min_cakes": 2, "max_cakes": 3, "min_speed": 140.0, "max_speed": 220.0 },  # stage 1
-	{ "min_cakes": 3, "max_cakes": 6, "min_speed": 180.0, "max_speed": 260.0 },  # stage 2
+	{ "min_cakes": 3, "max_cakes": 5, "min_speed": 160.0, "max_speed": 220.0 },  # stage 1
+	{ "min_cakes": 4, "max_cakes": 6, "min_speed": 180.0, "max_speed": 260.0 },  # stage 2
 	{ "min_cakes": 5, "max_cakes": 8, "min_speed": 250.0, "max_speed": 300.0 },  # stage 3
 ]
 

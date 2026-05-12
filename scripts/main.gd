@@ -16,6 +16,8 @@ var onSkyScene: bool = true;
 
 # labels
 @onready var hintOverlay = $Game/HintOverlay;
+@onready var soulFreedLabel = $Game/VBoxContainer/SoulFreed;
+@onready var soulMetLabel = $Game/VBoxContainer/SoulMet;
 
 # scenes
 @onready var gameScene = $Game;
@@ -173,14 +175,15 @@ func onDialogueFinished(outcome: String) -> void:
 			characterBoat.visible = true;
 			GameState.free_soul(GameState.currentFish.fish_id);
 			fishingStatus.text = "The soul dissolves into light...";
-			
-			# TODO: play dissolve VFX, award soul fragment
+			soul_freed_effect()
+			onDialoguePresent = false
 
 		"ran_away":
 			characterBoat.visible = true;
 			fishingStatus.text = "The fish got away."
 			# No reward
 			print("FISH got AWAY — bad end")
+			onDialoguePresent = false
 
 		"blackout":
 			# Waiting Lady — player ate the cake
@@ -188,19 +191,23 @@ func onDialogueFinished(outcome: String) -> void:
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
 
 		"minigame":
-			# Waiting Lady — flower collect minigame
-			# TODO: load flower minigame scene, pass _current_fish back in
-			fishingStatus.text = "Something is happening... *minigame wip*"
-			print("MINIGAME TRIGGERED")
-			get_tree().create_timer(2).timeout;
-			get_tree().change_scene_to_file("res://scenes/waiting_lady_minigame.tscn");
-		
-		
-		
+			print("MINIGAME OUTCOME TRIGGERED")
+			var mg = preload("res://scenes/waiting_lady_minigame.tscn").instantiate()
+			add_child(mg)
+			mg.minigame_finished.connect(func(outcome):
+				mg.queue_free()
+				onDialoguePresent = false
+				characterBoat.visible = true
+				if outcome == "won":
+					GameState.free_soul(GameState.currentFish.fish_id)
+					fishingStatus.text = "The soul dissolves into light..."
+				else:
+					fishingStatus.text = "You couldn't hold on..."
+			)
+			
 	print("SOUL " + outcome + "\n" 
 		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n" 
 		+ "Current Tier: " + str(GameState.soul_tier));
-	onDialoguePresent = false;
 
 # ---------------------------------------------------------------------------
 # Blackout -> fade into minigame
@@ -233,3 +240,22 @@ func doBlackout(message: String) -> void:
 	t.tween_property(overlay, "color:a", 0.0, 1.0)
 	t.tween_callback(canvas.queue_free)
 	t.tween_callback(func(): onDialoguePresent = false);
+
+# ---------------------------------------------------------------------------
+# Freed Effect -> More engaging animation when soul is freed
+# ---------------------------------------------------------------------------
+func soul_freed_effect() -> void:
+	var overlay = ColorRect.new()
+	overlay.color = Color(1, 1, 0.8, 0)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var canvas = CanvasLayer.new()
+	canvas.layer = 10
+	canvas.add_child(overlay)
+	add_child(canvas)
+
+	var t = create_tween()
+	t.tween_property(overlay, "color:a", 0.6, 0.3)
+	t.tween_property(overlay, "color:a", 0.0, 1.2)
+	t.tween_callback(canvas.queue_free)

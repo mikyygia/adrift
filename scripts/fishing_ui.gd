@@ -8,8 +8,6 @@ extends Control
 @onready var barLeftBound = bar.position.x;
 @onready var barRightBound = bar.position.x + bar.size.x;
 
-@onready var animations = $"../CharacterBody2D";
-
 # movement
 var speed := 300;
 var direction := 1;
@@ -106,6 +104,7 @@ func updateGoal():
 	goal.text = "Goal: " + str(effort) + "/" + str(effortGoal);
 
 func endFishing(status: int):
+	# printing is mostly for debugging. doesn't appear in the UI
 	if status == 1:
 		print("FISH WAS CAUGHT!");
 		# fish dialogue appears

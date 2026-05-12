@@ -8,7 +8,7 @@ func _ready() -> void:
 	var t = get_tree().create_tween()
 	t.tween_property(cloud, "modulate:a", 0.0, 4.0)
 
-func _process(delta: float) -> void:
+func _process(_float) -> void:
 	# move the boat across the scene
 	if boat.position.x >= -200: 
 			boat.position.x -= 0.35;

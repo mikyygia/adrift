@@ -1,7 +1,6 @@
 # game_state.gd (Autoload)
 extends Node
 
-
 #states
 var tutorial_complete: bool = false;
 var currentFish: Fish = null;
