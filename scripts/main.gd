@@ -190,29 +190,20 @@ func onDialogueFinished(outcome: String) -> void:
 			onDialoguePresent = false
 
 		"blackout":
+			fishingStatus.text = "The fish got away."
 			# Waiting Lady — player ate the cake
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
 			await get_tree().create_timer(3).timeout
 			characterBoat.visible = true;
-
+			
+			
 		"minigame":
 			fishingStatus.text = ""
-			print("MINIGAME OUTCOME TRIGGERED")
 			var mg = preload("res://scenes/waiting_lady_minigame.tscn").instantiate()
-			mg.name =  "WaitingLadyMinigame"
+			mg.name = "WaitingLadyMinigame"
 			add_child(mg)
-			mg.minigame_finished.connect(func(outcome):
-				mg.queue_free()
-				onDialoguePresent = false
-				characterBoat.visible = true
-				if outcome == "won":
-					GameState.free_soul(GameState.currentFish.fish_id)
-					fishingStatus.text = "The soul dissolves into light..."
-					soul_freed_effect()
-					soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
-				else:
-					fishingStatus.text = "You couldn't hold on..."
-			)
+			mg.minigame_won.connect(_on_waitinglady_won)
+			mg.minigame_lost.connect(_on_waitinglady_lost)
 
 		"minigame_trivia":
 			fishingStatus.text = ""
@@ -289,17 +280,21 @@ func soul_freed_effect() -> void:
 	t.tween_callback(canvas.queue_free)
 
 func _on_waitinglady_won() -> void:
-	var minigame = get_node_or_null("WaitingLadyMinigame")
-	if minigame:
-		minigame.queue_free()
-	# resume post-win dialogue from step 20 ("I'm sorry...")
+	var mg = get_node_or_null("WaitingLadyMinigame")
+	
+	if mg:
+		mg.queue_free()
+		
 	characterBoat.visible = false
 	onDialoguePresent = true
-	var dialogue_instance = dialogue_scene.instantiate()
-	add_child(dialogue_instance)
-	dialogue_instance.dialogue_finished.connect(onDialogueFinished)
-	dialogue_instance.setup(GameState.currentFish)
-	dialogue_instance.current_step = 20  # "I... I'm sorry." line
+	
+	_resume_dialogue(GameState.currentFish, 20)  # "I... I'm sorry."
+	
+	#var dialogue_instance = dialogue_scene.instantiate()
+	#add_child(dialogue_instance)
+	#dialogue_instance.dialogue_finished.connect(onDialogueFinished)
+	#dialogue_instance.setup(GameState.currentFish)
+	#dialogue_instance.current_step = 20  # "I... I'm sorry." line
 
 func _on_waitinglady_lost() -> void:
 	var minigame = get_node_or_null("WaitingLadyMinigame")

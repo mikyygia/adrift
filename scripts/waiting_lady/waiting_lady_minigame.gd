@@ -1,7 +1,9 @@
 # waiting_lady_minigame.gd
 extends Node2D
 
-signal minigame_finished(outcome: String)
+#signal minigame_finished(outcome: String)
+signal minigame_won
+signal minigame_lost
 
 @onready var cake_spawner = $CakeSpawner
 @onready var present_spawner = $PresentSpawner
@@ -70,11 +72,12 @@ func _on_stage_cleared() -> void:
 	print("STAGE CLEARED — current stage: ", current_stage)
 	
 	if current_stage >= 3:
-		print("EMITTING WON")
-		_show_dialogue(WIN_DIALOGUE, func():
-			print("WIN DIALOGUE DONE — emitting minigame_finished won")
-			emit_signal("minigame_finished", "won")
-		)
+		emit_signal("minigame_won")
+		#_show_dialogue(WIN_DIALOGUE, func():
+			#print("WIN DIALOGUE DONE — emitting minigame_finished won")
+			#emit_signal("minigame_won")
+		#)
+
 	else:
 		_show_dialogue(STAGE_DIALOGUE[current_stage], func():
 			start_stage(current_stage + 1)
@@ -117,4 +120,4 @@ func _on_try_again():
 
 func _on_quit() -> void:
 	print("QUIT PRESSED — emitting minigame_finished dead")
-	emit_signal("minigame_finished", "dead")  # main.gd handles returning to game
+	emit_signal("minigame_lost")

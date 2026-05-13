@@ -192,7 +192,7 @@ static func waitingLady() -> Fish:
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "Woah, are you having a tea party? Hope you have some cake for me.", "next": 3 },
+				{ "label": "Oh a tea party.. do you have cake?", "next": 3 },
 				{"label": "Who are you waiting for?", "next": 6 }
 			]
 		},
@@ -342,7 +342,8 @@ static func waitingLady() -> Fish:
 			"speaker": "player",
 			"text": "You shouldn't have had to wait that long. But... you don't have to be alone anymore. I'll be your friend.",
 			"delay": 2.0,
-			"minigame_stage": 3
+			"minigame_stage": 3,
+			"portrait": "player"
 		},
 		# 24
 		{
@@ -387,7 +388,7 @@ static func kidFish():
 	var f = Fish.new()
 	f.fish_name = "Kid"
 	f.fish_id = "kid_fish"
-	f.portaits = {
+	f.portraits = {
 			"default": preload("res://assets/waiting-lady-assets/lady.png"),
 		}
 	f.dialogue = [

@@ -30,19 +30,19 @@ var full_text: String = ""
 var typing_tween: Tween = null
 var typing_delay: float = 0.03; # adjust typing speed
 
+const PLAYER_PORTRAIT = preload("res://assets/character/boy.png")
+
 # something
 signal emotion_changed(emotion: String);
 
 # ---------------------------------------------------------------------------
 #  ui setup display for the text and portrait
 # ---------------------------------------------------------------------------
-func setup(f: Fish):
+func setup(f: Fish, start_step: int = 0) -> void:
 	fish = f
-	current_step = 0
+	current_step = start_step
 	alias_label.text = fish.fish_name.to_upper()
-	
-	updatePortrait("default");
-		
+	updatePortrait("default")
 	_show_step(current_step)
 
 func updatePortrait(emotion: String):
@@ -71,30 +71,40 @@ func _show_step(index: int) -> void:
 
 	var step: Dictionary = fish.dialogue[index]
 	_clear_choices()
+	
+	if step.has("portrait") and step["portrait"] == "player":
+		portrait_rect.texture = PLAYER_PORTRAIT
+	elif step.has("emotion"):
+		updatePortrait(step["emotion"])
 
 	var speaker = step.get("speaker", "fish")
 	
-	if step.has("emotion"):
-		updatePortrait(step["emotion"]);
-
 	match speaker:
 		"fish":
 			alias_label.text = fish.fish_name.to_upper()
-			#dialogue_label.text = step["text"]
-			waiting_for_input = true; # always wait for user choice, no exceptions
-			type_text(step["text"]);
+			if not step.has("portrait") and not step.has("emotion"):
+				updatePortrait("default")  # ← add this
+			waiting_for_input = true
+			type_text(step["text"])
 
 		"player":
 			alias_label.text = "YOU"
 			dialogue_label.text = ""
 			waiting_for_input = false
-			_build_choices(step["choices"])
+			
+			if not step.has("choices"):
+				push_warning("Player step at index " + str(index) + " has no choices key")
+				waiting_for_input = true
+				type_text(step.get("text", "..."))
+			else:
+				_build_choices(step["choices"])
 
 		"monologue":
 			alias_label.text = "..."
-			#dialogue_label.text = step["text"]
+			if not step.has("portrait") and not step.has("emotion"):
+				updatePortrait("default")  # ← and this
 			waiting_for_input = true
-			type_text(step["text"]);
+			type_text(step["text"])
 
 
 # ---------------------------------------------------------------------------
@@ -205,9 +215,3 @@ func _end(outcome: String) -> void:
 	waiting_for_input = false
 	emit_signal("dialogue_finished", outcome)
 	queue_free()
-	# After minigame win — restart dialogue from post-win index
-func _on_minigame_won():
-	var dialogue = load("res://scenes/fish_dialogue.tscn").instantiate()
-	add_child(dialogue)
-	dialogue.setup(GameState.currentFish)
-	dialogue.current_step = 20  # index of "I'm sorry..." line
