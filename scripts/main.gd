@@ -17,7 +17,6 @@ var onSkyScene: bool = true;
 # labels
 @onready var hintOverlay = $Game/HintOverlay;
 @onready var soulFreedLabel = $Game/VBoxContainer/SoulFreed;
-@onready var soulMetLabel = $Game/VBoxContainer/SoulMet;
 
 # scenes
 @onready var gameScene = $Game;
@@ -38,6 +37,7 @@ func _ready() -> void:
 	gameScene.visible = false;
 	skyScene.visible = true;
 	playSkyScene();
+	soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
 	
 	# show a hint if the user is stuck
 	await get_tree().create_timer(3).timeout;
@@ -105,10 +105,10 @@ func startFishing():
 	characterBoat.visible = false;
 	hintOverlay.visible = false;
 	hintOverlay.text = "";
+	fishingStatus.visible = false;
 	
 	fishingUI.resetState();
 	fishingUI.visible = true;
-
 
 func showHint (text: String):
 	hintOverlay.text = text; 
@@ -118,7 +118,6 @@ func showHint (text: String):
 # ---------------------------------------------------------------------------
 func onFishingEnd(results):
 	characterBoat.visible = true;
-	fishingStatus.visible = true;
 
 	if results == 1: # you caught a fish
 		GameState.currentFish = pickRandomFish();
@@ -162,6 +161,7 @@ func pickRandomFish():
 	return pool[randi() % pool.size()];
 	
 func showDialogue():
+	fishingStatus.visible = false;
 	characterBoat.visible = false;
 	var dialogue_instance = dialogue_scene.instantiate(); # create the dialogue ; create an address
 	add_child(dialogue_instance); # add to tree ; placing address to visible land
@@ -170,6 +170,7 @@ func showDialogue():
 	dialogue_instance.setup(GameState.currentFish); # puts Fish into instance ; putting furniture into house
 	
 func onDialogueFinished(outcome: String) -> void:
+	fishingStatus.visible = true;
 	match outcome:
 		"freed":
 			characterBoat.visible = true;
@@ -177,6 +178,8 @@ func onDialogueFinished(outcome: String) -> void:
 			fishingStatus.text = "The soul dissolves into light...";
 			soul_freed_effect()
 			onDialoguePresent = false
+			
+			soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
 
 		"ran_away":
 			characterBoat.visible = true;
@@ -187,8 +190,9 @@ func onDialogueFinished(outcome: String) -> void:
 
 		"blackout":
 			# Waiting Lady — player ate the cake
-			fishingStatus.text = "you passed out...";
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
+			await get_tree().create_timer(3).timeout
+			characterBoat.visible = true;
 
 		"minigame":
 			print("MINIGAME OUTCOME TRIGGERED")
