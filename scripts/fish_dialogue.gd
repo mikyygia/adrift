@@ -205,3 +205,9 @@ func _end(outcome: String) -> void:
 	waiting_for_input = false
 	emit_signal("dialogue_finished", outcome)
 	queue_free()
+	# After minigame win — restart dialogue from post-win index
+func _on_minigame_won():
+	var dialogue = load("res://scenes/fish_dialogue.tscn").instantiate()
+	add_child(dialogue)
+	dialogue.setup(GameState.currentFish)
+	dialogue.current_step = 20  # index of "I'm sorry..." line
