@@ -184,31 +184,45 @@ func onDialogueFinished(outcome: String) -> void:
 		"ran_away":
 			characterBoat.visible = true;
 			fishingStatus.text = "The fish got away."
+			onDialoguePresent = false
 			# No reward
 			print("FISH got AWAY — bad end")
 			onDialoguePresent = false
 
 		"blackout":
+			fishingStatus.text = "The fish got away."
 			# Waiting Lady — player ate the cake
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
 			await get_tree().create_timer(3).timeout
 			characterBoat.visible = true;
-
-		"minigame":
-			print("MINIGAME OUTCOME TRIGGERED")
-			var mg = preload("res://scenes/waiting_lady_minigame.tscn").instantiate()
-			add_child(mg)
-			mg.minigame_finished.connect(func(outcome):
-				mg.queue_free()
-				onDialoguePresent = false
-				characterBoat.visible = true
-				if outcome == "won":
-					GameState.free_soul(GameState.currentFish.fish_id)
-					fishingStatus.text = "The soul dissolves into light..."
-				else:
-					fishingStatus.text = "You couldn't hold on..."
-			)
 			
+			
+		"minigame":
+			fishingStatus.text = ""
+			var mg = preload("res://scenes/waiting_lady_minigame.tscn").instantiate()
+			mg.name = "WaitingLadyMinigame"
+			add_child(mg)
+			mg.minigame_won.connect(_on_waitinglady_won)
+			mg.minigame_lost.connect(_on_waitinglady_lost)
+
+		"minigame_trivia":
+			fishingStatus.text = ""
+			print("TRIVIA MINIGAME TRIGGERED")
+			var trivia = load("res://scenes/kid_trivia_minigame.tscn").instantiate()
+			trivia.name = "KidTriviaMinigame"
+			add_child(trivia)
+			trivia.trivia_won.connect(_on_trivia_won)
+			trivia.trivia_lost.connect(_on_trivia_lost)
+			# onDialoguePresent stays TRUE until trivia ends
+
+		"give_item_friendship":
+			GameState.collected_items["kid_soundtrack"] = true
+			_resume_dialogue(GameState.currentFish, 32)
+
+		"give_item_pride":
+			GameState.collected_items["kid_soundtrack"] = true
+			_resume_dialogue(GameState.currentFish, 32)
+		
 	print("SOUL " + outcome + "\n" 
 		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n" 
 		+ "Current Tier: " + str(GameState.soul_tier));
@@ -245,6 +259,7 @@ func doBlackout(message: String) -> void:
 	t.tween_callback(canvas.queue_free)
 	t.tween_callback(func(): onDialoguePresent = false);
 
+
 # ---------------------------------------------------------------------------
 # Freed Effect -> More engaging animation when soul is freed
 # ---------------------------------------------------------------------------
@@ -263,3 +278,49 @@ func soul_freed_effect() -> void:
 	t.tween_property(overlay, "color:a", 0.6, 0.3)
 	t.tween_property(overlay, "color:a", 0.0, 1.2)
 	t.tween_callback(canvas.queue_free)
+
+func _on_waitinglady_won() -> void:
+	var mg = get_node_or_null("WaitingLadyMinigame")
+	
+	if mg:
+		mg.queue_free()
+		
+	characterBoat.visible = false
+	onDialoguePresent = true
+	
+	_resume_dialogue(GameState.currentFish, 20)  # "I... I'm sorry."
+	
+	#var dialogue_instance = dialogue_scene.instantiate()
+	#add_child(dialogue_instance)
+	#dialogue_instance.dialogue_finished.connect(onDialogueFinished)
+	#dialogue_instance.setup(GameState.currentFish)
+	#dialogue_instance.current_step = 20  # "I... I'm sorry." line
+
+func _on_waitinglady_lost() -> void:
+	var minigame = get_node_or_null("WaitingLadyMinigame")
+	if minigame:
+		minigame.queue_free()
+		doBlackout("The cake hits you square in the face.\nEverything goes dark...")
+		
+func _resume_dialogue(fish: Fish, from_step: int) -> void:
+	characterBoat.visible = false
+	onDialoguePresent = true
+	var dialogue_instance = dialogue_scene.instantiate()
+	add_child(dialogue_instance)
+	dialogue_instance.dialogue_finished.connect(onDialogueFinished)
+	dialogue_instance.setup(fish, from_step)  # ← pass step directly
+
+func _on_trivia_won() -> void:
+	var minigame = get_node_or_null("KidTriviaMinigame")
+	if minigame:
+		minigame.queue_free()
+	onDialoguePresent = true
+	_resume_dialogue(GameState.currentFish, 12)
+
+func _on_trivia_lost() -> void:
+	var minigame = get_node_or_null("KidTriviaMinigame")
+	if minigame:
+		minigame.queue_free()
+	characterBoat.visible = true
+	fishingStatus.text = "The kid swims away, shaking their head..."
+	onDialoguePresent = false
