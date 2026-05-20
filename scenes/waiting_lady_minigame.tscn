@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bi86o8on47hom" path="res://scripts/waiting_lady/waiting_lady_minigame.gd" id="1_ebao5"]
 [ext_resource type="Texture2D" uid="uid://dn64mi6v8723j" path="res://assets/waiting-lady-assets/ocean-background.png" id="1_wmx42"]
-[ext_resource type="Texture2D" uid="uid://ej8gq5mvvqr" path="res://assets/waiting-lady-assets/lady.png" id="2_frcnd"]
 [ext_resource type="Texture2D" uid="uid://b6dctqstobd0t" path="res://assets/waiting-lady-assets/ui-overlay.png" id="3_y7tm1"]
+[ext_resource type="Texture2D" uid="uid://bmyakfo4475ia" path="res://assets/fish portrait/waiting-lady/lady.png" id="4_ulosv"]
 [ext_resource type="Script" uid="uid://co32nwqtuo4ak" path="res://scripts/waiting_lady/player_movement.gd" id="4_wmx42"]
 [ext_resource type="Texture2D" uid="uid://c8h2ved6yf0g3" path="res://assets/character/boy.png" id="4_ykqj0"]
 [ext_resource type="Texture2D" uid="uid://c5lxw8hkch88a" path="res://assets/fishing-pack/Objects/Boat.png" id="5_q6n6n"]
@@ -35,9 +35,9 @@ texture = ExtResource("3_y7tm1")
 
 [node name="Lady" type="Sprite2D" parent="UiOverlay" unique_id=1759731039]
 texture_filter = 1
-position = Vector2(-1.9788818, -11.28273)
-scale = Vector2(0.47416008, 0.47416008)
-texture = ExtResource("2_frcnd")
+position = Vector2(0.8996296, -19.919535)
+scale = Vector2(0.25678584, 0.25678587)
+texture = ExtResource("4_ulosv")
 
 [node name="DialogueLabel" type="Label" parent="UiOverlay" unique_id=1583906967]
 offset_left = -733.23

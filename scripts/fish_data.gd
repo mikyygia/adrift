@@ -1,3 +1,4 @@
+# fish_data.gd
 extends Node
 
 # ---------------------------------------------------------------------------
@@ -8,35 +9,35 @@ extends Node
 static func getFirstFish() -> Fish:
 	return firstFish();
 
-static func getGentlePool() -> Array:
-	var pool = [];
-	
-	if not GameState.tutorial_complete:
-		pool.append(grumpyOldMan())  # tutorial only
-	else:
-		if GameState.soul_tier == 2:
-			pool.append(kidFish());
-			pool.append(samuraiFish());
-		elif GameState.soul_tier == 3:
-			pass # add more gentle fish here
-		
-	return filterPool(pool);
-	
-static func getHeavyPool() -> Array:
-	var pool = [];
-	
-	if not GameState.tutorial_complete:
-		pool.append(waitingLady());
-	else:
-		if GameState.soul_tier == 2:
-			pass; # add more heavy hearted fish here
-		#else:
-			#pass
-		
-	return filterPool(pool);
-
-static func filterPool(pool: Array) -> Array:
-	return pool.filter(func(f): return not GameState.freed_souls.has(f.fish_id))
+#static func getGentlePool() -> Array:
+	#var pool = [];
+	#
+	#if not GameState.tutorial_complete:
+		#pool.append(grumpyOldMan())  # tutorial only
+	#else:
+		#if GameState.soul_tier == 2:
+			#pool.append(kidFish());
+			#pool.append(samuraiFish());
+		#elif GameState.soul_tier == 3:
+			#pass # add more gentle fish here
+		#
+	#return filterPool(pool);
+	#
+#static func getHeavyPool() -> Array:
+	#var pool = [];
+	#
+	#if not GameState.tutorial_complete:
+		#pool.append(waitingLady());
+	#else:
+		#if GameState.soul_tier == 2:
+			#pass; # add more heavy hearted fish here
+		##else:
+			##pass
+		#
+	#return filterPool(pool);
+#
+#static func filterPool(pool: Array) -> Array:
+	#return pool.filter(func(f): return not GameState.freed_souls.has(f.fish_id))
 
 # ---------------------------------------------------------------------------
 # How the dialogue per fish works: 
@@ -379,7 +380,7 @@ static func waitingLady() -> Fish:
 			"text": "Thank you. For staying. And for being my first friend.",
 			"delay": 3.0,
 			"minigame_stage": 3,
-			"next": "free_fish"
+			"next": -1
 		},
 	]
 	return f
@@ -651,7 +652,6 @@ static func kidFish():
 
 	return f
 
-
 static func samuraiFish() -> Fish:
 	var f = Fish.new()
 	f.fish_id = "samurai_fish"
@@ -659,16 +659,16 @@ static func samuraiFish() -> Fish:
 	f.portraits = {
 		"default": preload("res://assets/fish portrait/samurai/teru.png"),
 	}
-
-	if GameState.collected_items.get("kid_soundtrack", false):
-		f.dialogue = teruWithSheet()
-	else:
-		f.dialogue = teruWithoutSheet()
-
+	f.dialogue = _teruDialogue()
 	return f
 
 
-static func teruWithoutSheet() -> Array:
+static func _teruDialogue() -> Array:
+	var has_sheet  = GameState.collected_items.get("kid_soundtrack", false)
+	var has_stone  = GameState.collected_items.get("smooth_stone", false)
+	var has_feather = GameState.collected_items.get("feather_charm", false)
+	var has_card   = GameState.collected_items.get("blank_arcana", false)
+
 	return [
 		# 0
 		{ "speaker": "fish", "text": "...", "delay": 2.0 },
@@ -681,7 +681,7 @@ static func teruWithoutSheet() -> Array:
 			]
 		},
 		# 2
-		{ "speaker": "fish", "text": "You're not supposed to be out here. This part of the water doesn't usually have visitors.", "delay": 2.0 },
+		{ "speaker": "fish", "text": "You're not supposed to be out here. This part of the water doesn't usually have visitors.", "delay": 2.2 },
 		# 3
 		{
 			"speaker": "player", "text": "",
@@ -701,90 +701,149 @@ static func teruWithoutSheet() -> Array:
 		},
 		# 6
 		{ "speaker": "fish", "text": "What needs doing.", "delay": 1.4 },
-		# 7 — the door that doesn't open
+		# 7 — item prompt. choices built dynamically based on inventory
+		{
+			"speaker": "player", "text": "",
+			"choices": _buildTeruItemChoices(has_sheet, has_stone, has_feather, has_card),
+			"is_item_prompt": true
+		},
+		# 8 — no item / default close
 		{ "speaker": "fish", "text": "...You remind me of someone, actually.", "delay": 2.0 },
-		# 8
-		{ "speaker": "fish", "text": "Never mind.", "delay": 1.2 },
 		# 9
+		{ "speaker": "fish", "text": "Never mind.", "delay": 1.2 },
+		# 10
 		{
 			"speaker": "player", "text": "",
 			"choices": [
-				{ "label": "Does that make you happy?", "next": 10 },
-				{ "label": "That sounds lonely.",       "next": 12 }
+				{ "label": "Does that make you happy?", "next": 11 },
+				{ "label": "That sounds lonely.",       "next": 13 }
 			]
 		},
-		# 10 — OP1
-		{ "speaker": "fish", "text": "Happy.", "delay": 1.5 },
 		# 11
-		{ "speaker": "fish", "text": "I'm not sure I've thought about it that way.", "delay": 1.8, "next": -1 },
-		# 12 — OP2
-		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		{ "speaker": "fish", "text": "Happy.", "delay": 1.5 },
+		# 12
+		{ "speaker": "fish", "text": "I'm not sure I've thought about it that way.", "delay": 1.8, "next": "tarot_begin" },
 		# 13
-		{ "speaker": "fish", "text": "Maybe.", "delay": 1.2 },
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
 		# 14
-		{ "speaker": "fish", "text": "But lonely is just what it is when you grow up fast.", "delay": 2.0, "next": -1 },
+		{ "speaker": "fish", "text": "Maybe.", "delay": 1.2 },
+		# 15
+		{ "speaker": "fish", "text": "But lonely is just what it is when you grow up fast.", "delay": 2.0, "next": "tarot_begin" },
+
+		# ── MUSIC SHEET PATH (steps 16–27) ──────────────────────────────
+		# 16
+		{ "speaker": "fish", "text": "...", "delay": 2.5 },
+		# 17
+		{ "speaker": "fish", "text": "Where did you get this.", "delay": 1.6 },
+		# 18
+		{ "speaker": "fish", "text": "...", "delay": 3.0 },
+		# 19
+		{ "speaker": "fish", "text": "That melody.", "delay": 1.8 },
+		# 20
+		{ "speaker": "fish", "text": "I haven't heard it in a long time.", "delay": 1.8 },
+		# 21
+		{ "speaker": "fish", "text": "Someone used to hum it. Badly.", "delay": 2.0 },
+		# 22
+		{ "speaker": "fish", "text": "Every morning.", "delay": 1.4 },
+		# 23
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "They were important to you?", "next": 24 }
+			]
+		},
+		# 24
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		# 25
+		{ "speaker": "fish", "text": "He was loud.", "delay": 1.2 },
+		# 26
+		{ "speaker": "fish", "text": "Always at the wrong times.", "delay": 1.4 },
+		# 27
+		{ "speaker": "fish", "text": "It used to annoy me.", "delay": 1.6 },
+		# 28
+		{ "speaker": "fish", "text": "I thought I preferred quiet.", "delay": 1.8 },
+		# 29
+		{ "speaker": "fish", "text": "...", "delay": 3.0 },
+		# 30
+		{ "speaker": "fish", "text": "Keep it.", "delay": 1.4 },
+		# 31
+		{ "speaker": "fish", "text": "It should be heard again.", "delay": 2.0, "next": "give_memory_fragment" },
+
+		# ── STONE PATH (steps 32–39) ─────────────────────────────────────
+		# 32
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		# 33
+		{ "speaker": "fish", "text": "It's been in water a long time.", "delay": 1.8 },
+		# 34
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "That's it?", "next": 35 }
+			]
+		},
+		# 35
+		{ "speaker": "fish", "text": "That's enough.", "delay": 1.2 },
+		# 36
+		{ "speaker": "fish", "text": "Things don't stay sharp in water.", "delay": 1.6 },
+		# 37
+		{ "speaker": "fish", "text": "They lose edges. Or they learn to stop resisting it.", "delay": 2.0 },
+		# 38
+		{ "speaker": "fish", "text": "...", "delay": 2.0 },
+		# 39
+		{ "speaker": "fish", "text": "You should put it back.", "delay": 1.4, "next": "tarot_begin" },
+
+		# ── FEATHER PATH (steps 40–48) ───────────────────────────────────
+		# 40
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		# 41
+		{ "speaker": "fish", "text": "Someone tied this too tightly.", "delay": 1.8 },
+		# 42
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "Does that matter?", "next": 43 }
+			]
+		},
+		# 43
+		{ "speaker": "fish", "text": "It does if it was meant to move.", "delay": 1.6 },
+		# 44
+		{ "speaker": "fish", "text": "Feathers aren't meant to stay still.", "delay": 1.6 },
+		# 45
+		{ "speaker": "fish", "text": "But this one won't forget the string.", "delay": 2.0 },
+		# 46
+		{ "speaker": "fish", "text": "...", "delay": 2.5 },
+		# 47
+		{ "speaker": "fish", "text": "Strange thing to keep.", "delay": 1.4 },
+		# 48
+		{ "speaker": "fish", "text": "Still.", "delay": 1.2, "next": "tarot_begin" },
+
+		# ── BLANK CARD PATH (steps 49–56) ────────────────────────────────
+		# 49
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		# 50
+		{ "speaker": "fish", "text": "It doesn't have a name.", "delay": 1.6 },
+		# 51
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "Does that mean anything?", "next": 52 }
+			]
+		},
+		# 52
+		{ "speaker": "fish", "text": "It means someone didn't decide what it was yet.", "delay": 2.0 },
+		# 53
+		{ "speaker": "fish", "text": "Or didn't want to.", "delay": 1.4 },
+		# 54
+		{ "speaker": "fish", "text": "Either way... it's waiting.", "delay": 2.0 },
+		# 55
+		{ "speaker": "fish", "text": "Like everything else out here.", "delay": 1.6, "next": "tarot_begin" },
 	]
 
-static func teruWithSheet() -> Array:
+static func _buildTeruItemChoices(has_sheet: bool, has_stone: bool, has_feather: bool, has_card: bool) -> Array:
 	return [
-		# 0
-		{ "speaker": "fish", "text": "...", "delay": 2.0 },
-		# 1
-		{ "speaker": "fish", "text": "Where did you get that.", "delay": 1.6 },
-		# 2
-		{
-			"speaker": "player", "text": "",
-			"choices": [
-				{ "label": "I found it.",             "next": 3 },
-				{ "label": "Someone gave it to me.",  "next": 3 }
-			]
-		},
-		# 3
-		{ "speaker": "fish", "text": "That melody.", "delay": 1.8 },
-		# 4
-		{ "speaker": "fish", "text": "I haven't heard it in years.", "delay": 1.6 },
-		# 5 — pause beat
-		{ "speaker": "fish", "text": "...", "delay": 2.5 },
-		# 6
-		{ "speaker": "fish", "text": "Someone used to hum it constantly.", "delay": 1.8 },
-		# 7
-		{ "speaker": "fish", "text": "In the gardens, during meetings, even when people were speaking.", "delay": 2.2 },
-		# 8
-		{
-			"speaker": "player", "text": "",
-			"choices": [
-				{ "label": "That sounds irritating.", "next": 9 }
-			]
-		},
-		# 9
-		{ "speaker": "fish", "text": "It was.", "delay": 1.2 },
-		# 10
-		{ "speaker": "fish", "text": "I told him it was annoying.", "delay": 1.4 },
-		# 11
-		{ "speaker": "fish", "text": "He just laughed and kept humming.", "delay": 1.8 },
-		# 12
-		{
-			"speaker": "player", "text": "",
-			"choices": [
-				{ "label": "You seem to remember it well.", "next": 13 }
-			]
-		},
-		# 13 — pause
-		{ "speaker": "fish", "text": "...", "delay": 2.5 },
-		# 14
-		{ "speaker": "fish", "text": "I used to think he treated life too lightly.", "delay": 2.0 },
-		# 15
-		{ "speaker": "fish", "text": "Laughing and making jokes at things that didn't matter.", "delay": 1.8 },
-		# 16
-		{ "speaker": "fish", "text": "Stopping to listen to every musician in the street.", "delay": 1.8 },
-		# 17
-		{ "speaker": "fish", "text": "But he made everything feel less heavy.", "delay": 2.0 },
-		# 18
-		{ "speaker": "fish", "text": "Strange what stays with you.", "delay": 2.4 },
-		# 19 — monologue beat before resolution
-		{ "speaker": "monologue", "text": "He doesn't say anything else. But something in the water feels different. Lighter.", "delay": 2.5 },
-		# 20
-		{ "speaker": "fish", "text": "...Thank you.", "delay": 2.0 },
-		# 21
-		{ "speaker": "fish", "text": "For carrying it this far.", "delay": 1.8, "next": -1 },
+		{ "label": "Show Teru the music sheet.", "next": 16, "requires": "kid_soundtrack", "disabled": not has_sheet },
+		{ "label": "Show Teru the stone.",        "next": 32, "requires": "smooth_stone",   "disabled": not has_stone },
+		{ "label": "Show Teru the feather charm.","next": 40, "requires": "feather_charm",  "disabled": not has_feather },
+		{ "label": "Show Teru the card.",         "next": 49, "requires": "blank_arcana",   "disabled": not has_card },
+		{ "label": "...",                          "next": 8,  "requires": "",               "disabled": false },
 	]

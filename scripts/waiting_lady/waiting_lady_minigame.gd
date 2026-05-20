@@ -72,11 +72,14 @@ func _on_stage_cleared() -> void:
 	print("STAGE CLEARED — current stage: ", current_stage)
 	
 	if current_stage >= 3:
-		emit_signal("minigame_won")
+		#emit_signal("minigame_won")
 		#_show_dialogue(WIN_DIALOGUE, func():
 			#print("WIN DIALOGUE DONE — emitting minigame_finished won")
 			#emit_signal("minigame_won")
 		#)
+		_show_dialogue(WIN_DIALOGUE, func():
+			emit_signal("minigame_won")
+		)
 
 	else:
 		_show_dialogue(STAGE_DIALOGUE[current_stage], func():
@@ -103,13 +106,10 @@ func _lose() -> void:
 	cake_spawner.stop()
 	death_panel.visible = true;
 
-	# keeping presents still bounce around screen on death for personality effect
-
 	# code to clear all presents on death:
-	#for child in get_children():
-		#if child is Area2D:
-			#child.queue_free()
-	#death_panel.visible = true
+	for child in get_children():
+		if child is Area2D:
+			child.queue_free()
 
 func _on_try_again():
 	lives = 2;

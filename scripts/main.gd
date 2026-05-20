@@ -1,3 +1,4 @@
+# main.gd
 extends Node2D
 
 # sky scenes & states (very beginning of the game)
@@ -120,7 +121,7 @@ func onFishingEnd(results):
 	characterBoat.visible = true;
 
 	if results == 1: # you caught a fish
-		GameState.currentFish = pickRandomFish();
+		GameState.currentFish = pickNextFish();
 
 		if GameState.currentFish == null:
 			fishingStatus.text = "The water is quiet... nothing left to find."
@@ -137,28 +138,26 @@ func onFishingEnd(results):
 # - tutorial phase (blank fish -> grumpy old man -> waiting lady)
 # - open phase
 # # ++++++++++++++++++++++++++++++++++++++++
-func pickRandomFish():
+func pickNextFish() -> Fish:
 	if not firstFishSeen:
-		firstFishSeen = true;
-		return FishData.getFirstFish();
+		firstFishSeen = true
+		return FishData.getFirstFish()
 
-	# weighted roll : 70% common, 30% heavy, or whatever feels right
-	var roll = randf();
-	var pool: Array;
+	# tier 1
+	if not GameState.grumpy_freed:
+		return FishData.grumpyOldMan()
 
-	if roll < 0.7:
-		pool = FishData.getGentlePool();
-		if pool.is_empty():  # fallback if all gentle fish freed
-			pool = FishData.getHeavyPool();
-	else:
-		pool = FishData.getHeavyPool();
-		if pool.is_empty():  # fallback if all heavy fish freed
-			pool = FishData.getGentlePool();
-	
-	if pool.is_empty():
-		return null  # TODO: handle "all fish freed" end state
-	
-	return pool[randi() % pool.size()];
+	if not GameState.waiting_lady_won:
+		return FishData.waitingLady()
+
+	# tier 2
+	if not GameState.kid_freed:
+		return FishData.kidFish()
+
+	if GameState.freed_souls.has("samurai_fish") or GameState.freed_souls.has("samurai_fish_return"):
+		return null  # all fish done
+
+	return FishData.samuraiFish()
 	
 func showDialogue():
 	fishingStatus.visible = false;
@@ -222,10 +221,24 @@ func onDialogueFinished(outcome: String) -> void:
 		"give_item_pride":
 			GameState.collected_items["kid_soundtrack"] = true
 			_resume_dialogue(GameState.currentFish, 32)
+		"give_memory_fragment":
+			GameState.collected_items["memory_fragment_teru"] = true
+			soul_freed_effect()
+			fishingStatus.text = "Something shifts. Like a door left ajar."
+			await get_tree().create_timer(2.0).timeout
+			GameState.free_soul(GameState.currentFish.fish_id)
+			onDialoguePresent = false
+			characterBoat.visible = true
+			_begin_tarot()
+
+		"tarot_begin":
+			GameState.free_soul(GameState.currentFish.fish_id)
+			onDialoguePresent = false
+			characterBoat.visible = true
+			_begin_tarot()
 		
 	print("SOUL " + outcome + "\n" 
-		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n" 
-		+ "Current Tier: " + str(GameState.soul_tier));
+		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n");
 
 # ---------------------------------------------------------------------------
 # Blackout -> fade into minigame
@@ -280,6 +293,7 @@ func soul_freed_effect() -> void:
 	t.tween_callback(canvas.queue_free)
 
 func _on_waitinglady_won() -> void:
+	GameState.free_soul(GameState.currentFish.fish_id);
 	var mg = get_node_or_null("WaitingLadyMinigame")
 	
 	if mg:
@@ -290,11 +304,6 @@ func _on_waitinglady_won() -> void:
 	
 	_resume_dialogue(GameState.currentFish, 20)  # "I... I'm sorry."
 	
-	#var dialogue_instance = dialogue_scene.instantiate()
-	#add_child(dialogue_instance)
-	#dialogue_instance.dialogue_finished.connect(onDialogueFinished)
-	#dialogue_instance.setup(GameState.currentFish)
-	#dialogue_instance.current_step = 20  # "I... I'm sorry." line
 
 func _on_waitinglady_lost() -> void:
 	var minigame = get_node_or_null("WaitingLadyMinigame")
@@ -318,9 +327,43 @@ func _on_trivia_won() -> void:
 	_resume_dialogue(GameState.currentFish, 12)
 
 func _on_trivia_lost() -> void:
+	GameState.free_soul(GameState.currentFish.fish_id);
 	var minigame = get_node_or_null("KidTriviaMinigame")
 	if minigame:
 		minigame.queue_free()
 	characterBoat.visible = true
 	fishingStatus.text = "The kid swims away, shaking their head..."
 	onDialoguePresent = false
+	
+func _begin_tarot() -> void:
+	fishingStatus.text = "A figure appears at the edge of the water..."
+	await get_tree().create_timer(2.0).timeout
+
+	# manual override panel for your teammate to click
+	var panel = preload("res://scenes/tarot_manual.tscn").instantiate()
+	add_child(panel)
+	panel.tarot_won.connect(_on_tarot_won)
+	panel.tarot_lost.connect(_on_tarot_lost)
+
+func _on_tarot_won() -> void:
+	# true ending if waiting lady item + music sheet
+	# good ending otherwise
+	var has_sheet = GameState.collected_items.get("kid_soundtrack", false)
+	var has_lady_item = GameState.collected_items.get("blank_arcana", false)
+
+	if has_sheet and has_lady_item:
+		_show_ending("true")
+	else:
+		_show_ending("good")
+
+func _on_tarot_lost() -> void:
+	_show_ending("bad")
+
+func _show_ending(type: String) -> void:
+	match type:
+		"true":
+			fishingStatus.text = "True Ending"
+		"good":
+			fishingStatus.text = "Good Ending"
+		"bad":
+			fishingStatus.text = "Bad Ending"

@@ -169,6 +169,9 @@ func _build_choices(choices: Array) -> void:
 		btn.flat = true
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		
+		var is_disabled = choice.get("disabled", false)
+		btn.disabled = is_disabled
+		
 		# normal state — transparent
 		var normal = StyleBoxFlat.new()
 		normal.bg_color = Color(0, 0, 0, 0)
@@ -179,11 +182,17 @@ func _build_choices(choices: Array) -> void:
 		hover.bg_color = Color(0, 0, 0, 0.15)
 		btn.add_theme_stylebox_override("hover", hover)
 		
-		# text darkens on hover
-		btn.add_theme_color_override("font_hover_color", Color(0.641, 0.399, 0.719, 1.0))
-		
-		var next_val = choice["next"]
-		btn.pressed.connect(func(): _on_choice_pressed(next_val))
+		if is_disabled:
+			# grayed out — player can see it but not click
+			btn.add_theme_color_override("font_color",       Color(0.4, 0.4, 0.4, 0.6))
+			btn.add_theme_color_override("font_hover_color", Color(0.4, 0.4, 0.4, 0.6))
+		else:
+			btn.add_theme_color_override("font_hover_color", Color(0.641, 0.399, 0.719, 1.0))
+
+		if not is_disabled:
+			var next_val = choice["next"]
+			btn.pressed.connect(func(): _on_choice_pressed(next_val))
+
 		choices_box.add_child(btn)
 
 func _clear_choices() -> void:

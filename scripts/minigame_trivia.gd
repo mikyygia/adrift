@@ -1,3 +1,4 @@
+# minigame_trivia.gd
 extends Control
 
 signal trivia_won

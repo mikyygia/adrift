@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bj5n3hxmd88ew"]
+
+[ext_resource type="Script" uid="uid://cx6n44ysol20d" path="res://scripts/tarot_manual.gd" id="1_ymq2a"]
+
+[node name="Node2D" type="CanvasLayer" unique_id=1635020686]
+script = ExtResource("1_ymq2a")
+
+[node name="WinButton" type="Button" parent="." unique_id=709064182]
+offset_left = 209.0
+offset_top = 140.0
+offset_right = 297.0
+offset_bottom = 206.0
+theme_override_font_sizes/font_size = 30
+text = "WIN"
+
+[node name="LoseButton" type="Button" parent="." unique_id=1691003737]
+offset_left = 327.0
+offset_top = 140.0
+offset_right = 415.0
+offset_bottom = 206.0
+theme_override_font_sizes/font_size = 30
+text = "LOSE"
