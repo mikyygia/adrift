@@ -16,7 +16,7 @@ static func getGentlePool() -> Array:
 	else:
 		if GameState.soul_tier == 2:
 			pool.append(kidFish());
-			pool.append(loverFish());
+			pool.append(samuraiFish());
 		elif GameState.soul_tier == 3:
 			pass # add more gentle fish here
 		
@@ -172,7 +172,7 @@ static func waitingLady() -> Fish:
 	f.fish_name = "A Lady"
 	f.fish_id = "waiting_lady"
 	f.portraits = {
-			"default": preload("res://assets/waiting-lady-assets/lady.png"),
+			"default": preload("res://assets/fish portrait/waiting-lady/lady.png"),
 		}
 	f.dialogue = [
 		# 0
@@ -389,7 +389,7 @@ static func kidFish():
 	f.fish_name = "Kid"
 	f.fish_id = "kid_fish"
 	f.portraits = {
-			"default": preload("res://assets/waiting-lady-assets/lady.png"),
+			"default": preload("res://assets/fish portrait/kid/kid.png"),
 		}
 	f.dialogue = [
 		# 0
@@ -461,13 +461,13 @@ static func kidFish():
 		# 8
 		{
 			"speaker": "fish",
-			"text": "I called it...the MEGA ULTRA SUPREME FUN AND FRIENDLY TRIVIA QUESTIONS TO REDEEM YOUR WORTHY OR NOT.",
+			"text": "I called it... the MEGA ULTRA SUPREME FUN AND FRIENDLY TRIVIA QUESTIONS TO REDEEM YOUR WORTHY OR NOT.",
 			"delay": 0.6
 		},
 		# 9
 		{
 			"speaker": "fish",
-			"text": "There 's a prize at then edn/ So you'd better stay. And tget them all right.",
+			"text": "There's a prize at the end. So you'd better stay. And get them all right.",
 			"delay": 0.6
 		},
 		# 10 - second choice
@@ -651,18 +651,140 @@ static func kidFish():
 
 	return f
 
-static func loverFish() -> Fish:
+
+static func samuraiFish() -> Fish:
 	var f = Fish.new()
-	f.fish_name = "Lover Fish";
-	f.fish_id = "lover_fish";
-	
-	# dialogue changes based on world state
+	f.fish_id = "samurai_fish"
+	f.fish_name = "Teru"
+	f.portraits = {
+		"default": preload("res://assets/fish portrait/samurai/teru.png"),
+	}
+
 	if GameState.collected_items.get("kid_soundtrack", false):
-		#f.dialogue = loverDialogue_withSong()
-		f.fish_id = "lover_fish_return";
-		pass
+		f.dialogue = teruWithSheet()
 	else:
-		#f.dialogue = loverDialogue_default()
-		pass
-	
+		f.dialogue = teruWithoutSheet()
+
 	return f
+
+
+static func teruWithoutSheet() -> Array:
+	return [
+		# 0
+		{ "speaker": "fish", "text": "...", "delay": 2.0 },
+		# 1
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "...",       "next": 2 },
+				{ "label": "Hello..?",  "next": 2 }
+			]
+		},
+		# 2
+		{ "speaker": "fish", "text": "You're not supposed to be out here. This part of the water doesn't usually have visitors.", "delay": 2.0 },
+		# 3
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "Are you waiting for someone?", "next": 4 },
+				{ "label": "You seem used to this.",       "next": 4 }
+			]
+		},
+		# 4
+		{ "speaker": "fish", "text": "No. I stopped expecting people a long time ago.", "delay": 1.8 },
+		# 5
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "What do you do instead?", "next": 6 }
+			]
+		},
+		# 6
+		{ "speaker": "fish", "text": "What needs doing.", "delay": 1.4 },
+		# 7 — the door that doesn't open
+		{ "speaker": "fish", "text": "...You remind me of someone, actually.", "delay": 2.0 },
+		# 8
+		{ "speaker": "fish", "text": "Never mind.", "delay": 1.2 },
+		# 9
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "Does that make you happy?", "next": 10 },
+				{ "label": "That sounds lonely.",       "next": 12 }
+			]
+		},
+		# 10 — OP1
+		{ "speaker": "fish", "text": "Happy.", "delay": 1.5 },
+		# 11
+		{ "speaker": "fish", "text": "I'm not sure I've thought about it that way.", "delay": 1.8, "next": -1 },
+		# 12 — OP2
+		{ "speaker": "fish", "text": "...", "delay": 1.5 },
+		# 13
+		{ "speaker": "fish", "text": "Maybe.", "delay": 1.2 },
+		# 14
+		{ "speaker": "fish", "text": "But lonely is just what it is when you grow up fast.", "delay": 2.0, "next": -1 },
+	]
+
+static func teruWithSheet() -> Array:
+	return [
+		# 0
+		{ "speaker": "fish", "text": "...", "delay": 2.0 },
+		# 1
+		{ "speaker": "fish", "text": "Where did you get that.", "delay": 1.6 },
+		# 2
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "I found it.",             "next": 3 },
+				{ "label": "Someone gave it to me.",  "next": 3 }
+			]
+		},
+		# 3
+		{ "speaker": "fish", "text": "That melody.", "delay": 1.8 },
+		# 4
+		{ "speaker": "fish", "text": "I haven't heard it in years.", "delay": 1.6 },
+		# 5 — pause beat
+		{ "speaker": "fish", "text": "...", "delay": 2.5 },
+		# 6
+		{ "speaker": "fish", "text": "Someone used to hum it constantly.", "delay": 1.8 },
+		# 7
+		{ "speaker": "fish", "text": "In the gardens, during meetings, even when people were speaking.", "delay": 2.2 },
+		# 8
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "That sounds irritating.", "next": 9 }
+			]
+		},
+		# 9
+		{ "speaker": "fish", "text": "It was.", "delay": 1.2 },
+		# 10
+		{ "speaker": "fish", "text": "I told him it was annoying.", "delay": 1.4 },
+		# 11
+		{ "speaker": "fish", "text": "He just laughed and kept humming.", "delay": 1.8 },
+		# 12
+		{
+			"speaker": "player", "text": "",
+			"choices": [
+				{ "label": "You seem to remember it well.", "next": 13 }
+			]
+		},
+		# 13 — pause
+		{ "speaker": "fish", "text": "...", "delay": 2.5 },
+		# 14
+		{ "speaker": "fish", "text": "I used to think he treated life too lightly.", "delay": 2.0 },
+		# 15
+		{ "speaker": "fish", "text": "Laughing and making jokes at things that didn't matter.", "delay": 1.8 },
+		# 16
+		{ "speaker": "fish", "text": "Stopping to listen to every musician in the street.", "delay": 1.8 },
+		# 17
+		{ "speaker": "fish", "text": "But he made everything feel less heavy.", "delay": 2.0 },
+		# 18
+		{ "speaker": "fish", "text": "Strange what stays with you.", "delay": 2.4 },
+		# 19 — monologue beat before resolution
+		{ "speaker": "monologue", "text": "He doesn't say anything else. But something in the water feels different. Lighter.", "delay": 2.5 },
+		# 20
+		{ "speaker": "fish", "text": "...Thank you.", "delay": 2.0 },
+		# 21
+		{ "speaker": "fish", "text": "For carrying it this far.", "delay": 1.8, "next": -1 },
+	]

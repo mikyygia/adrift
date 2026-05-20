@@ -10,10 +10,12 @@ var soul_bar: int = 0
 var soul_bar_max: int = 3        # souls needed to level up
 var soul_tier: int = 1           # current unlock tier
 var memory_fragments: Array[String] = []
+var collected_items: Dictionary = {}
 
 # souls
 var freed_souls: Array[String] = [] # permanently gone, gave soul fragment
 var flags: Dictionary = {} # # cross-fish story flags
+
 
 
 
