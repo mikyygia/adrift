@@ -35,6 +35,12 @@ var onDialoguePresent: bool = false;
 # Startup
 # ---------------------------------------------------------------------------
 func _ready() -> void:
+	# ── DEV SKIP — remove before final build ──
+	GameState.grumpy_freed = true
+	GameState.freed_souls.append("grumpy_old_man")
+	GameState.freed_souls.append("first_fish")
+	firstFishSeen = true
+	
 	gameScene.visible = false;
 	skyScene.visible = true;
 	playSkyScene();
@@ -194,6 +200,18 @@ func onDialogueFinished(outcome: String) -> void:
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
 			await get_tree().create_timer(3).timeout
 			characterBoat.visible = true;
+		
+		"free_fish":
+			GameState.free_soul(GameState.currentFish.fish_id)
+			GameState.collected_items["blank_arcana"] = true
+			onDialoguePresent = false
+			soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
+			var card_tex = preload("res://assets/items/card.png")
+			_show_item_obtained("Blank Arcana Card", card_tex, func():
+				characterBoat.visible = true
+				soul_freed_effect()
+				fishingStatus.text = "The soul dissolves into light..."
+			)
 			
 			
 		"minigame":
@@ -292,6 +310,9 @@ func soul_freed_effect() -> void:
 	t.tween_property(overlay, "color:a", 0.0, 1.2)
 	t.tween_callback(canvas.queue_free)
 
+# ---------------------------------------------------------------------------
+# waiting lady
+# ---------------------------------------------------------------------------
 func _on_waitinglady_won() -> void:
 	GameState.free_soul(GameState.currentFish.fish_id);
 	var mg = get_node_or_null("WaitingLadyMinigame")
@@ -302,8 +323,7 @@ func _on_waitinglady_won() -> void:
 	characterBoat.visible = false
 	onDialoguePresent = true
 	
-	_resume_dialogue(GameState.currentFish, 20)  # "I... I'm sorry."
-	
+	_resume_dialogue(GameState.currentFish, 20)  # "I... I'm sorry."	
 
 func _on_waitinglady_lost() -> void:
 	var minigame = get_node_or_null("WaitingLadyMinigame")
@@ -319,6 +339,9 @@ func _resume_dialogue(fish: Fish, from_step: int) -> void:
 	dialogue_instance.dialogue_finished.connect(onDialogueFinished)
 	dialogue_instance.setup(fish, from_step)  # ← pass step directly
 
+# ---------------------------------------------------------------------------
+# kid fish
+# ---------------------------------------------------------------------------
 func _on_trivia_won() -> void:
 	var minigame = get_node_or_null("KidTriviaMinigame")
 	if minigame:
@@ -335,6 +358,9 @@ func _on_trivia_lost() -> void:
 	fishingStatus.text = "The kid swims away, shaking their head..."
 	onDialoguePresent = false
 	
+# ---------------------------------------------------------------------------
+# tarot lady
+# ---------------------------------------------------------------------------
 func _begin_tarot() -> void:
 	fishingStatus.text = "A figure appears at the edge of the water..."
 	await get_tree().create_timer(2.0).timeout
@@ -367,3 +393,73 @@ func _show_ending(type: String) -> void:
 			fishingStatus.text = "Good Ending"
 		"bad":
 			fishingStatus.text = "Bad Ending"
+
+# ---------------------------------------------------------------------------
+# item being obtained after a minigame. happens post-minigame. waiting lady
+# ---------------------------------------------------------------------------
+func _show_item_obtained(item_name: String, item_texture: Texture2D, on_done: Callable) -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 15
+	add_child(canvas)
+
+	# dim background
+	var dim = ColorRect.new()
+	dim.color = Color(0, 0, 0, 0)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(dim)
+
+	# item sprite — starts small in center
+	var item_rect = TextureRect.new()
+	item_rect.texture = item_texture
+	item_rect.set_anchors_preset(Control.PRESET_CENTER)
+	item_rect.size = Vector2(120, 120)
+	item_rect.position = Vector2(-60, -100)
+	item_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	item_rect.scale = Vector2(0.1, 0.1)
+	item_rect.pivot_offset = Vector2(60, 60)
+	canvas.add_child(item_rect)
+
+	# item label — "You obtained: Blank Arcana Card"
+	var label = Label.new()
+	label.text = "You obtained: " + item_name
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.position = Vector2(-200, 60)
+	label.size = Vector2(400, 40)
+	label.modulate.a = 0.0
+	canvas.add_child(label)
+
+	# continue hint
+	var hint = Label.new()
+	hint.text = "[ press space to continue ]"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.set_anchors_preset(Control.PRESET_CENTER)
+	hint.position = Vector2(-200, 100)
+	hint.size = Vector2(400, 40)
+	hint.modulate.a = 0.0
+	canvas.add_child(hint)
+
+	# animate
+	var t = create_tween()
+	t.set_parallel(true)
+	t.tween_property(dim, "color:a", 0.6, 0.4)
+	t.tween_property(item_rect, "scale", Vector2(1.0, 1.0), 0.5)\
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.set_parallel(false)
+	t.tween_property(label, "modulate:a", 1.0, 0.4)
+	t.tween_property(hint, "modulate:a", 1.0, 0.3)
+
+	# wait for space
+	await _wait_for_space()
+	
+	var t2 = create_tween()
+	t2.tween_property(canvas, "modulate:a", 0.0, 0.4)
+	t2.tween_callback(canvas.queue_free)
+	t2.tween_callback(on_done)
+
+func _wait_for_space() -> void:
+	while true:
+		await get_tree().process_frame
+		if Input.is_action_just_pressed("ui_accept"):
+			break

@@ -47,9 +47,7 @@ static func getFirstFish() -> Fish:
 #		-2 : fish escapes  / bad end
 # ---------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------
-# COMMON SOUL  (gentle — linear, no choices)
-# ---------------------------------------------------------------------------
+
 static func firstFish() -> Fish:
 	var f = Fish.new()
 	f.fish_name = "???";
@@ -165,8 +163,7 @@ static func grumpyOldMan() -> Fish:
 	return f
 
 # ---------------------------------------------------------------------------
-# THE WAITING LADY  (heavy — cake gag + flower minigame)
-# Phase 1: conversation. Cake path = blackout. Flower path = minigame signal.
+# THE WAITING LADY  (dodge cake + collect flower minigame)
 # ---------------------------------------------------------------------------
 static func waitingLady() -> Fish:
 	var f = Fish.new()
@@ -380,7 +377,7 @@ static func waitingLady() -> Fish:
 			"text": "Thank you. For staying. And for being my first friend.",
 			"delay": 3.0,
 			"minigame_stage": 3,
-			"next": -1
+			"next": "free_fish"
 		},
 	]
 	return f
