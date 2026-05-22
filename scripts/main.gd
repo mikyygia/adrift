@@ -30,16 +30,26 @@ var firstFishSeen: bool = false; # so that the first fish displays once
 #var currentFish: Fish = null;
 var onDialoguePresent: bool = false;
 
+@onready var item_bar = $Game/ItemBar
 
 # ---------------------------------------------------------------------------
 # Startup
 # ---------------------------------------------------------------------------
 func _ready() -> void:
-	# ── DEV SKIP — remove before final build ──
+	########### ── DEV SKIP — remove before final build ── ###########
 	GameState.grumpy_freed = true
+	GameState.waiting_lady_won = true
 	GameState.freed_souls.append("grumpy_old_man")
 	GameState.freed_souls.append("first_fish")
+	GameState.freed_souls.append("waiting_lady")
 	firstFishSeen = true
+	
+	# simulate having the blank card
+	var card_tex = preload("res://assets/items/blank_card.png")
+	GameState.collected_items["blank_arcana"] = true
+	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)  # ← shows it in UI
+	
+	########### ─────────────────────────────────────────── ###########
 	
 	gameScene.visible = false;
 	skyScene.visible = true;
@@ -203,16 +213,15 @@ func onDialogueFinished(outcome: String) -> void:
 		
 		"free_fish":
 			GameState.free_soul(GameState.currentFish.fish_id)
-			GameState.collected_items["blank_arcana"] = true
 			onDialoguePresent = false
 			soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
-			var card_tex = preload("res://assets/items/card.png")
+			var card_tex = preload("res://assets/items/blank_card.png")
 			_show_item_obtained("Blank Arcana Card", card_tex, func():
+				_give_item("blank_arcana", "Blank Arcana Card", card_tex)
 				characterBoat.visible = true
 				soul_freed_effect()
 				fishingStatus.text = "The soul dissolves into light..."
 			)
-			
 			
 		"minigame":
 			fishingStatus.text = ""
@@ -233,12 +242,19 @@ func onDialogueFinished(outcome: String) -> void:
 			# onDialoguePresent stays TRUE until trivia ends
 
 		"give_item_friendship":
-			GameState.collected_items["kid_soundtrack"] = true
-			_resume_dialogue(GameState.currentFish, 32)
+			var sheet_tex = preload("res://assets/items/music_sheet.png")
+			_show_item_obtained("Music Sheet", sheet_tex, func():
+				_give_item("kid_soundtrack", "Music Sheet", sheet_tex)
+				_resume_dialogue(GameState.currentFish, 32)
+			)
 
 		"give_item_pride":
-			GameState.collected_items["kid_soundtrack"] = true
-			_resume_dialogue(GameState.currentFish, 32)
+			var sheet_tex = preload("res://assets/items/music_sheet.png")
+			_show_item_obtained("Music Sheet", sheet_tex, func():
+				_give_item("kid_soundtrack", "Music Sheet", sheet_tex)
+				_resume_dialogue(GameState.currentFish, 32)
+			)
+
 		"give_memory_fragment":
 			GameState.collected_items["memory_fragment_teru"] = true
 			soul_freed_effect()
@@ -314,7 +330,7 @@ func soul_freed_effect() -> void:
 # waiting lady
 # ---------------------------------------------------------------------------
 func _on_waitinglady_won() -> void:
-	GameState.free_soul(GameState.currentFish.fish_id);
+	#GameState.free_soul(GameState.currentFish.fish_id);
 	var mg = get_node_or_null("WaitingLadyMinigame")
 	
 	if mg:
@@ -329,7 +345,10 @@ func _on_waitinglady_lost() -> void:
 	var minigame = get_node_or_null("WaitingLadyMinigame")
 	if minigame:
 		minigame.queue_free()
-		doBlackout("The cake hits you square in the face.\nEverything goes dark...")
+
+	GameState.skip_soul("waiting_lady")  # unlocks kid fish, no soul count
+		
+	doBlackout("The cake hits you square in the face.\nEverything goes dark...")
 		
 func _resume_dialogue(fish: Fish, from_step: int) -> void:
 	characterBoat.visible = false
@@ -412,6 +431,7 @@ func _show_item_obtained(item_name: String, item_texture: Texture2D, on_done: Ca
 	# item sprite — starts small in center
 	var item_rect = TextureRect.new()
 	item_rect.texture = item_texture
+	item_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	item_rect.set_anchors_preset(Control.PRESET_CENTER)
 	item_rect.size = Vector2(120, 120)
 	item_rect.position = Vector2(-60, -100)
@@ -463,3 +483,7 @@ func _wait_for_space() -> void:
 		await get_tree().process_frame
 		if Input.is_action_just_pressed("ui_accept"):
 			break
+
+func _give_item(key: String, name: String, texture: Texture2D) -> void:
+	GameState.collected_items[key] = true
+	item_bar.add_item(key, name, texture)

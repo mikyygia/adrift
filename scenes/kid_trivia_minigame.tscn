@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://u0iylnxyy26j"]
 
-[ext_resource type="Script" path="res://scripts/minigame_trivia.gd" id="1_n1cq6"]
+[ext_resource type="Script" uid="uid://d31dvlwg0e3ka" path="res://scripts/minigame_trivia.gd" id="1_n1cq6"]
 
 [node name="Control" type="Control" unique_id=1227800494]
 layout_mode = 3

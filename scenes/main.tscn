@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dlg7ahu6u0k3a" path="res://assets/sky/Clouds 1/4.png" id="5_jbj1t"]
 [ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="11_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://c5lxw8hkch88a" path="res://assets/fishing-pack/Objects/Boat.png" id="11_ya4ey"]
+[ext_resource type="Script" uid="uid://bma8tixvs230k" path="res://scripts/item_bar.gd" id="12_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://c8h2ved6yf0g3" path="res://assets/character/boy.png" id="17_0ld40"]
 
 [node name="Main" type="Node2D" unique_id=253514747]
@@ -125,3 +126,12 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("11_eb6dy")
 text = "souls freed: "
+
+[node name="ItemBar" type="CanvasLayer" parent="Game" unique_id=1503744668]
+script = ExtResource("12_eb6dy")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Game/ItemBar" unique_id=1738841726]
+offset_left = 419.0
+offset_top = 6.0
+offset_right = 628.0
+offset_bottom = 46.0

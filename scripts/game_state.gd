@@ -42,3 +42,10 @@ func free_soul(fish_id: String) -> void:
 func isFreed (fish_id: String) -> bool:
 	return freed_souls.has(fish_id);
 	
+func skip_soul(fish_id: String) -> void:
+	# progresses the game without counting as a freed soul
+	match fish_id:
+		"waiting_lady":
+			waiting_lady_won = true
+		"kid_fish":
+			kid_freed = true
