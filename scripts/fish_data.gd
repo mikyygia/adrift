@@ -408,7 +408,7 @@ static func kidFish():
 			"text": "",
 			"choices": [
 				{"label": "No, I am not.", "next": 3},
-				{"label": "Do I look like I would grade you?", "next": 4}
+				{"label": "Do I look like I would grade you?", "next": 6}
 			]
 		},
 		# ---OP1---
@@ -418,66 +418,68 @@ static func kidFish():
 			"text": "You're NOT my tutor?",
 			"delay": 0.5
 		},
+		# 4
 		{
 			"speaker": "fish",
 			"text": "Are you here to play with me instead???",
 			"delay": 0.4
 		},
+		# 5
 		{
 			"speaker": "fish",
 			"text": "Because I can play. And I always win. Hehe.",
 			"delay": 0.6,
-			"next": 6
+			"next": 8
 		},
 		# ---OP2---
-		# 4
+		# 6
 		{
 			"speaker": "fish",
 			"text": "...Hahaha. probably not, honestly.",
 			"delay": 0.8
 		}, 
-		# 5
+		# 7
 		{
 			"speaker": "fish",
 			"text": "My papers are like... a hundred pages long. And they keep adding more. It's fine though - you don't have to. We should play instead. That sounds way more fun than grading anyway.",
 			"delay": 1.0,
-			"next": 6
+			#"next": 6
 		},
 		# ---BOTH PATHS MEET HERE---
-		# 6
+		# 8
 		{
 			"speaker": "fish",
 			"text": "Okay. But if we are playing - there are rules.",
 			"delay": 1.0
 		},
-		# 7
+		# 9
 		{
 			"speaker": "fish",
-			"text": "No stopping halfway. No giving up. And no pretending you understand when you dont.",
+			"text": "No stopping halfway. No giving up. And no pretending you understand when you don't.",
 			"delay": 1.2
 		},
-		# 8
+		# 10
 		{
 			"speaker": "fish",
 			"text": "I called it... the MEGA ULTRA SUPREME FUN AND FRIENDLY TRIVIA QUESTIONS TO REDEEM YOUR WORTHY OR NOT.",
 			"delay": 0.6
 		},
-		# 9
+		# 11
 		{
 			"speaker": "fish",
 			"text": "There's a prize at the end. So you'd better stay. And get them all right.",
 			"delay": 0.6
 		},
-		# 10 - second choice
+		# 12 - second choice
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "...the what. you take games really seriouasly, huh.", "next": 11 },
-				{"label": "Okay. I'm in. Show me what you got.",                  "next": 11}
+				{ "label": "...?. You take games really seriously, hm.", "next": 13 },
+				{"label": "Okay. I'm in. Show me what you got.", "next": 13}
 			]
 		},
-		# 11 - both lead to game start
+		# 13 - both lead to game start
 		{
 			"speaker": "fish",
 			"text": "Good. Then let's begin.",
@@ -490,48 +492,48 @@ static func kidFish():
 		# (resume here after minigame_won, step 15)
 		# =============================================
 
-		# 12
+		# 14
 		{
 			"speaker": "fish",
 			"text": "Amazing...",
 			"delay": 2.0
 		},
-		# 13
+		# 15
 		{
 			"speaker": "fish",
 			"text": "No one ever got all my questions right. Not ever. Except... him. But this — this is the first time I've actually had a real challenge.",
 			"delay": 2.5
 		},
-		# 14
+		# 16
 		{
 			"speaker": "fish",
 			"text": "You know... it was actually fun. Playing with you.",
 			"delay": 2.0
 		},
-		# 15
+		# 17
 		{
 			"speaker": "fish",
 			"text": "I'm sorry if the questions were hard. I know it's not always fun playing with me.",
 			"delay": 1.8
 		},
-		# 16 — third choice
+		# 18 — third choice
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "Yeah, I had to use ChatGPT.", "next": 17 },
-				{ "label": "I had a lot of fun. And I learned a lot from you.", "next": 19 }
+				{ "label": "Yeah, I had to search things up.", "next": 19 },
+				{ "label": "I had a lot of fun. And I learned a lot from you.", "next": 21 }
 			]
 		},
 
 		# --- CHEATING PATH ---
-		# 17
+		# 19
 		{
 			"speaker": "fish",
 			"text": "...You WHAT.",
 			"delay": 1.5
 		},
-		# 18
+		# 20
 		{
 			"speaker": "fish",
 			"text": "THAT'S CHEATING. I have been saving those questions. Those are MY questions — I worked hard for them. I can't believe this. I don't want to play with a cheater.",
@@ -540,66 +542,66 @@ static func kidFish():
 		},
 
 		# --- HONEST PATH ---
-		# 19
+		# 21
 		{
 			"speaker": "fish",
 			"text": "You mean it...",
 			"delay": 1.8
 		},
-		# 20
+		# 22
 		{
 			"speaker": "fish",
 			"text": "Usually people just get annoyed. Or quit.",
 			"delay": 1.4
 		},
-		# 21
+		# 23
 		{
 			"speaker": "fish",
 			"text": "But that's all I know how to do. I always had to center myself around studying. Thinking that would finally get my parents' love.",
 			"delay": 2.2
 		},
-		# 22
+		# 24
 		{
 			"speaker": "fish",
 			"text": "My brother is good at studying. Good at talking. Everyone loves him. I thought if I were just like him... I wouldn't have to be lonely.",
 			"delay": 2.5
 		},
-		# 23
+		# 25
 		{
 			"speaker": "fish",
 			"text": "I thought my parents would finally love me too.",
 			"delay": 2.8
 		},
-		# 24 — fourth choice
+		# 26 — fourth choice
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "You don't need to be your brother. Would you want to be my friend?", "next": 25 },
-				{ "label": "Those were incredible questions. You should be proud of the mind that made them.", "next": 29 }
+				{ "label": "You don't need to be your brother. Would you want to be my friend?", "next": 27 },
+				{ "label": "Those were incredible questions. You should be proud of the mind that made them.", "next": 31 }
 			]
 		},
 
 		# --- OP1: FRIENDSHIP ---
-		# 25
+		# 27
 		{
 			"speaker": "fish",
 			"text": "...Yes.",
 			"delay": 2.0
 		},
-		# 26
+		# 28
 		{
 			"speaker": "fish",
 			"text": "I'd like that. Very much.",
 			"delay": 1.6
 		},
-		# 27
+		# 29
 		{
 			"speaker": "fish",
 			"text": "Thank you. For accepting me for who I am.",
 			"delay": 1.8
 		},
-		# 28
+		# 30
 		{
 			"speaker": "fish",
 			"text": "This isn't much... but I hope you'll take it.",
@@ -608,19 +610,19 @@ static func kidFish():
 		},
 
 		# --- OP2: PRIDE ---
-		# 29
+		# 31
 		{
 			"speaker": "fish",
 			"text": "I do try my best. I want to give it everything I have, while I still can.",
 			"delay": 2.0
 		},
-		# 30
+		# 32
 		{
 			"speaker": "fish",
 			"text": "This isn't much. But I hope you'll take it as my thank you.",
 			"delay": 1.6
 		},
-		# 31
+		# 33
 		{
 			"speaker": "fish",
 			"text": "Thank you. For playing with me.",
@@ -632,13 +634,13 @@ static func kidFish():
 		# INTERNAL MONOLOGUE — after item received
 		# (both paths lead here, step 35)
 		# =============================================
-		# 32
+		# 34
 		{
 			"speaker": "monologue",
 			"text": "It's heavy and cold.",
 			"delay": 1.6
 		},
-		# 33
+		# 35
 		{
 			"speaker": "monologue",
 			"text": "As you wind it, the gears click with a rhythm that sounds like a heart trying to remember how to beat.",
@@ -658,7 +660,6 @@ static func samuraiFish() -> Fish:
 	}
 	f.dialogue = _teruDialogue()
 	return f
-
 
 static func _teruDialogue() -> Array:
 	var has_sheet  = GameState.collected_items.get("kid_soundtrack", false)
