@@ -41,7 +41,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -245.0
 offset_top = -102.5
-offset_right = 276.0
+offset_right = 255.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -65,7 +65,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_csfld")
 text = "blurb blurb im a blue fish. what else does a fish say"
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3
 justification_flags = 171
 
 [node name="choices" type="VBoxContainer" parent="control/Panel/HBoxContainer/VBoxContainer" unique_id=144328578]
@@ -76,19 +76,20 @@ theme_override_constants/separation = 15
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7137577, 0.7206708, 0.13539767, 1)
 theme_override_fonts/font = ExtResource("2_u6h5j")
-text = "> where's your spark??"
+text = "> where's your spark?? something something example text"
 flat = true
 alignment = 0
-autowrap_mode = 2
+autowrap_mode = 3
+autowrap_trim_flags = 192
 
 [node name="Button2" type="Button" parent="control/Panel/HBoxContainer/VBoxContainer/choices" unique_id=1466679172]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7137255, 0.72156864, 0.13725491, 1)
 theme_override_fonts/font = ExtResource("2_u6h5j")
-text = "> hello world"
+text = "> hello world something something example choice ???"
 flat = true
 alignment = 0
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="portrait" type="TextureRect" parent="control/Panel/HBoxContainer" unique_id=1808326021]
 texture_filter = 1

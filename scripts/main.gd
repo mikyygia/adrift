@@ -39,15 +39,24 @@ func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
 	GameState.grumpy_freed = true
 	GameState.waiting_lady_won = true
+	GameState.kid_freed = true
 	GameState.freed_souls.append("grumpy_old_man")
 	GameState.freed_souls.append("first_fish")
 	GameState.freed_souls.append("waiting_lady")
+	GameState.freed_souls.append("kid_fish")
 	firstFishSeen = true
 	
 	# simulate having the blank card
 	var card_tex = preload("res://assets/items/blank_card.png")
 	GameState.collected_items["blank_arcana"] = true
 	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)  # ← shows it in UI
+	
+	# music sheet
+	var card_tex2 = preload("res://assets/items/music_sheet.png")
+	GameState.collected_items["music_sheet"] = true
+	item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
+	
+	
 	
 	########### ─────────────────────────────────────────── ###########
 	
@@ -233,27 +242,24 @@ func onDialogueFinished(outcome: String) -> void:
 
 		"minigame_trivia":
 			fishingStatus.text = ""
-			print("TRIVIA MINIGAME TRIGGERED")
+			var trivia_layer = CanvasLayer.new()
+			trivia_layer.layer = 10
+			trivia_layer.name = "KidTriviaMinigame"
+			add_child(trivia_layer)
 			var trivia = load("res://scenes/kid_trivia_minigame.tscn").instantiate()
-			trivia.name = "KidTriviaMinigame"
-			add_child(trivia)
+			trivia_layer.add_child(trivia)
 			trivia.trivia_won.connect(_on_trivia_won)
 			trivia.trivia_lost.connect(_on_trivia_lost)
-			# onDialoguePresent stays TRUE until trivia ends
 
-		"give_item_friendship":
+		"give_item_friendship", "give_item_pride":
 			var sheet_tex = preload("res://assets/items/music_sheet.png")
 			_show_item_obtained("Music Sheet", sheet_tex, func():
 				_give_item("kid_soundtrack", "Music Sheet", sheet_tex)
-				_resume_dialogue(GameState.currentFish, 32)
+				_resume_dialogue(GameState.currentFish, 34)
 			)
-
-		"give_item_pride":
-			var sheet_tex = preload("res://assets/items/music_sheet.png")
-			_show_item_obtained("Music Sheet", sheet_tex, func():
-				_give_item("kid_soundtrack", "Music Sheet", sheet_tex)
-				_resume_dialogue(GameState.currentFish, 32)
-			)
+		
+		"choose_item":
+			_show_item_picker()
 
 		"give_memory_fragment":
 			GameState.collected_items["memory_fragment_teru"] = true
@@ -305,7 +311,6 @@ func doBlackout(message: String) -> void:
 	t.tween_property(overlay, "color:a", 0.0, 1.0)
 	t.tween_callback(canvas.queue_free)
 	t.tween_callback(func(): onDialoguePresent = false);
-
 
 # ---------------------------------------------------------------------------
 # Freed Effect -> More engaging animation when soul is freed
@@ -366,16 +371,69 @@ func _on_trivia_won() -> void:
 	if minigame:
 		minigame.queue_free()
 	onDialoguePresent = true
-	_resume_dialogue(GameState.currentFish, 12)
+	_resume_dialogue(GameState.currentFish, 14)
 
 func _on_trivia_lost() -> void:
-	GameState.free_soul(GameState.currentFish.fish_id);
+	#GameState.free_soul(GameState.currentFish.fish_id);
 	var minigame = get_node_or_null("KidTriviaMinigame")
 	if minigame:
 		minigame.queue_free()
-	characterBoat.visible = true
-	fishingStatus.text = "The kid swims away, shaking their head..."
-	onDialoguePresent = false
+		
+	#characterBoat.visible = true
+	#fishingStatus.text = "The kid swims away, shaking their head..."
+	onDialoguePresent = true
+	_resume_dialogue(GameState.currentFish, 36)
+
+func _show_item_picker() -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 15
+	add_child(canvas)
+
+	var dim = ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.6)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(dim)
+
+	var label = Label.new()
+	label.text = "Choose one:"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.position = Vector2(-200, -120)
+	label.size = Vector2(400, 40)
+	canvas.add_child(label)
+
+	var vbox = VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_CENTER)
+	vbox.position = Vector2(-150, -60)
+	vbox.size = Vector2(300, 180)
+	canvas.add_child(vbox)
+
+	var items = [
+		{ "label": "An old music sheet", "key": "kid_soundtrack",  "name": "Music Sheet",        "tex": "res://assets/items/music_sheet.png" },
+		{ "label": "A smooth river stone",  "key": "smooth_stone",    "name": "Smooth River Stone",  "tex": "res://assets/items/stone.png" },
+		{ "label": "A feather charm",  "key": "feather_charm",   "name": "Bent Feather Charm",  "tex": "res://assets/items/feather.png" },
+	]
+
+	for item in items:
+		var btn = Button.new()
+		btn.text = item["label"]
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var key = item["key"]
+		var name = item["name"]
+		var tex_path = item["tex"]
+		btn.pressed.connect(func():
+			canvas.queue_free()
+			var tex = load(tex_path)
+			_show_item_obtained(name, tex, func():
+				_give_item(key, name, tex)
+				GameState.skip_soul("kid_fish")
+				soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
+				characterBoat.visible = true
+				fishingStatus.text = "The kid waves goodbye..."
+				onDialoguePresent = false
+			)
+		)
+		vbox.add_child(btn)
 	
 # ---------------------------------------------------------------------------
 # tarot lady

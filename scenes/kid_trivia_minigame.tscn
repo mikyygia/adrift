@@ -10,3 +10,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n1cq6")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1357301718]
+layout_mode = 0
+offset_right = 667.0
+offset_bottom = 389.0
+color = Color(0.08965943, 0.089659445, 0.089659445, 1)

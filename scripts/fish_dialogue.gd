@@ -97,7 +97,15 @@ func _show_step(index: int) -> void:
 				waiting_for_input = true
 				type_text(step.get("text", "..."))
 			else:
-				_build_choices(step["choices"])
+				var choices = step["choices"]
+				# if this is the teru item loop, rebuild choices fresh each time
+				if step.get("is_item_prompt", false):
+					var has_sheet   = GameState.collected_items.get("kid_soundtrack", false)
+					var has_card    = GameState.collected_items.get("blank_arcana", false)
+					var has_stone   = GameState.collected_items.get("smooth_stone", false)
+					var has_feather = GameState.collected_items.get("feather_charm", false)
+					choices = FishData._buildTeruItemChoices(has_sheet, has_card, has_stone, has_feather)
+				_build_choices(choices)
 
 		"monologue":
 			alias_label.text = "..."
@@ -105,6 +113,8 @@ func _show_step(index: int) -> void:
 				updatePortrait("default")  # ← and this
 			waiting_for_input = true
 			type_text(step["text"])
+			
+		
 
 
 # ---------------------------------------------------------------------------
@@ -169,6 +179,19 @@ func _build_choices(choices: Array) -> void:
 		btn.flat = true
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		
+		# font
+		#var font = dialogue_label.get_theme_font("font")
+		#var font_size = dialogue_label.get_theme_font_size("font_size")
+		#if font:
+			#btn.add_theme_font_override("font", font)
+		#if font_size > 0:
+			#btn.add_theme_font_size_override("font_size", font_size)
+		
+		# autowrap so long choices don't get cut off
+		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.custom_minimum_size = Vector2(0, 0)
+		
 		var is_disabled = choice.get("disabled", false)
 		btn.disabled = is_disabled
 		
@@ -201,6 +224,14 @@ func _clear_choices() -> void:
 
 func _on_choice_pressed(next_val) -> void:
 	_clear_choices()
+		
+	# set offered flags for teru item loop
+	if next_val == 41:  # music sheet
+		GameState.flags["teru_offered_sheet"] = true
+		GameState.flags["teru_offered_anything"] = true
+	elif next_val in [78, 85, 90]:  # stone, feather, card
+		GameState.flags["teru_offered_anything"] = true
+	
 	_resolve_next(next_val)
 
 func _resolve_next(next_val) -> void:

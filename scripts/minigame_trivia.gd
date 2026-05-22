@@ -9,7 +9,7 @@ signal trivia_lost
 # ---------------------------------------------------------------------------
 var questions = [
 	{
-		"fish_text": "First one's easy. You should get this. What's the only mammal that can actually fly?",
+		"fish_text": "First one is easy. You should get this. What's the only mammal that can actually fly?",
 		"answers": ["A bat", "A flying squirrel", "A sugar glider", "A lemur"],
 		"correct": 0,
 		"wrong_response": "It's kinda basic, you should know that. It's okay, try again."
@@ -21,16 +21,18 @@ var questions = [
 		"wrong_response": "Do you even attend school? That is common knowledge. It's okay, try again."
 	},
 	{
-		"fish_text": "This one's from a book I read about game production. Good designers don't just trust themselves — they watch other people play instead?",
-		"answers": ["Play testing", "Speedrunning", "Debugging", "Rendering"],
-		"correct": 0,
-		"wrong_response": "No, you are not even thinking about the question. It's okay, try again."
+		"fish_text": "My tutor says people only remember things they care about. Do you think that's true?",
+		"answers": ["Yes, definitely.", "Not really.", "Depends on the person.", "I don't know."],
+		"correct": -1,
+		"wrong_response": "",
+		"response": "Hmmm. That's what he said too."
 	},
 	{
-		"fish_text": "This one's fun. Even my tutor got this wrong once. Which of these is actually a Pokémon name?",
-		"answers": ["Sentret", "Loratadine", "Clopidogrel", "Metformin"],
-		"correct": 0,
-		"wrong_response": "Someone probably doesn't have a childhood. It's okay, try again."
+		"fish_text": "If someone hummed the same melody every single day, do you think you'd memorize it without trying?",
+		"answers": ["Yeah, probably.", "No", "Only if I liked it.", "Annoying things do stick."],
+		"correct": -1,
+		"wrong_response": "",
+		"response": "Yeah. I think annoying things stick better."
 	},
 	{
 		"fish_text": "Bingo! Final question. Which of these is NOT the official name of a country?",
@@ -41,7 +43,7 @@ var questions = [
 			"Kingdom of the Netherlands"
 		],
 		"correct": 0,
-		"wrong_response": "I guess you never travel a lot? It's okay, not everyone is privileged enough. Try again."
+		"wrong_response":  "Look closer at the words. Geography matters. It's okay, try again."
 	}
 ]
 
@@ -61,6 +63,9 @@ var chances_label: Label
 var fish_speaking: bool = false
 
 func _ready() -> void:
+	anchor_right = 1.0
+	anchor_bottom = 1.0
+	set_anchors_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
 	_show_intro()
 
@@ -78,8 +83,8 @@ func _build_ui() -> void:
 	fish_portrait = TextureRect.new()
 	fish_portrait.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	fish_portrait.position = Vector2(-180, 20)
-	fish_portrait.size = Vector2(150, 150)
-	fish_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH
+	fish_portrait.size = Vector2(160, 232.5)
+	fish_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	add_child(fish_portrait)
 
 	# load kid fish portrait if available
@@ -90,16 +95,16 @@ func _build_ui() -> void:
 	fish_dialogue_box = Panel.new()
 	fish_dialogue_box.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	fish_dialogue_box.position = Vector2(20, 20)
-	fish_dialogue_box.size = Vector2(460, 90)
+	fish_dialogue_box.size = Vector2(440, 90)
 	fish_dialogue_box.visible = false
 	add_child(fish_dialogue_box)
 
 	fish_dialogue_label = Label.new()
-	fish_dialogue_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	fish_dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	#fish_dialogue_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fish_dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	fish_dialogue_label.add_theme_font_size_override("font_size", 13)
 	fish_dialogue_label.position = Vector2(10, 10)
-	fish_dialogue_label.size = Vector2(440, 70)
+	fish_dialogue_label.size = Vector2(400, 70)
 	fish_dialogue_box.add_child(fish_dialogue_label)
 
 	# chances label — top center
@@ -114,7 +119,7 @@ func _build_ui() -> void:
 	# question label — middle of screen
 	question_label = Label.new()
 	question_label.set_anchors_preset(Control.PRESET_CENTER)
-	question_label.position = Vector2(-300, -80)
+	question_label.position = Vector2(-300, -50)
 	question_label.size = Vector2(600, 80)
 	question_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	question_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -182,6 +187,16 @@ func _on_answer_pressed(index: int) -> void:
 			emit_signal("trivia_won")
 		else:
 			_load_question(current_question)
+	elif q["correct"] == -1:
+		# any answer is fine, show kid's response
+		_show_fish_dialogue(q["response"], false)
+		_disable_buttons()
+		await get_tree().create_timer(2.0).timeout
+		current_question += 1
+		if current_question >= questions.size():
+			emit_signal("trivia_won")
+		else:
+			_load_question(current_question)
 	else:
 		# wrong
 		chances -= 1
@@ -217,5 +232,3 @@ func _update_chances_display() -> void:
 	for i in range(3 - chances):
 		hearts += "♡ "
 	chances_label.text = "Chances: " + hearts.strip_edges()
-
-# Called when the node enters the scene tree for the first time.
