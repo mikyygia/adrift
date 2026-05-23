@@ -128,6 +128,7 @@ theme_override_fonts/font = ExtResource("11_eb6dy")
 text = "souls freed: "
 
 [node name="ItemBar" type="CanvasLayer" parent="Game" unique_id=1503744668]
+visible = false
 script = ExtResource("12_eb6dy")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Game/ItemBar" unique_id=1738841726]

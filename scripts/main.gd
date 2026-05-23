@@ -27,7 +27,6 @@ var dialogue_scene = preload("res://scenes/fish_dialogue.tscn");
 
 # states
 var firstFishSeen: bool = false; # so that the first fish displays once
-#var currentFish: Fish = null;
 var onDialoguePresent: bool = false;
 
 @onready var item_bar = $Game/ItemBar
@@ -39,11 +38,11 @@ func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
 	GameState.grumpy_freed = true
 	GameState.waiting_lady_won = true
-	GameState.kid_freed = true
+	#GameState.kid_freed = true
 	GameState.freed_souls.append("grumpy_old_man")
 	GameState.freed_souls.append("first_fish")
 	GameState.freed_souls.append("waiting_lady")
-	GameState.freed_souls.append("kid_fish")
+	#GameState.freed_souls.append("kid_fish")
 	firstFishSeen = true
 	
 	# simulate having the blank card
@@ -51,15 +50,14 @@ func _ready() -> void:
 	GameState.collected_items["blank_arcana"] = true
 	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)  # ← shows it in UI
 	
-	# music sheet
-	var card_tex2 = preload("res://assets/items/music_sheet.png")
-	GameState.collected_items["music_sheet"] = true
-	item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
+	## music sheet
+	#var card_tex2 = preload("res://assets/items/music_sheet.png")
+	#GameState.collected_items["music_sheet"] = true
+	#item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
 	
 	
 	
 	########### ─────────────────────────────────────────── ###########
-	
 	gameScene.visible = false;
 	skyScene.visible = true;
 	playSkyScene();
@@ -97,6 +95,7 @@ func gameStarts():
 	gameScene.visible = true;
 	fishingUI.visible = false;
 	fishingStatus.visible = false;
+	item_bar.visible = true;
 	fishingUI.fishingResults.connect(onFishingEnd);
 
 func playSkyScene():
@@ -132,6 +131,7 @@ func startFishing():
 	hintOverlay.visible = false;
 	hintOverlay.text = "";
 	fishingStatus.visible = false;
+	item_bar.visible = false;
 	
 	fishingUI.resetState();
 	fishingUI.visible = true;
@@ -195,6 +195,7 @@ func showDialogue():
 	
 func onDialogueFinished(outcome: String) -> void:
 	fishingStatus.visible = true;
+	item_bar.visible = true;
 	match outcome:
 		"freed":
 			characterBoat.visible = true;
