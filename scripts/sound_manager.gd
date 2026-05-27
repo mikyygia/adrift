@@ -49,3 +49,13 @@ func play_sfx(key: String) -> void:
 func stop_sfx() -> void:
 	for player in sfx_channels:
 		player.stop()
+
+func duck_music() -> void:
+	# lower volume during dialogue/reeling, don't stop
+	var t = create_tween()
+	t.tween_property(music, "volume_db", -20.0, 0.5)
+
+func unduck_music() -> void:
+	# restore volume when returning to idle
+	var t = create_tween()
+	t.tween_property(music, "volume_db", 0.0, 0.8)

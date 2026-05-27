@@ -93,6 +93,7 @@ func _input(event: InputEvent) -> void:
 # Scene flow
 # ---------------------------------------------------------------------------
 func gameStarts():
+	SoundManager.unduck_music()
 	gameScene.visible = true;
 	fishingUI.visible = false;
 	fishingStatus.visible = false;
@@ -100,6 +101,7 @@ func gameStarts():
 	fishingUI.fishingResults.connect(onFishingEnd);
 	
 func playSkyScene():
+	SoundManager.duck_music()
 	# player will wake up looking at the sky
 	# dialogue appears  [ ... ]
 	onSkyScene = true;
@@ -127,6 +129,9 @@ func show_dialogue():
 		.set_ease(Tween.EASE_OUT)
 
 func startFishing():
+	SoundManager.duck_music()
+	SoundManager.play_sfx("reel")
+	
 	# set our character on the boat invisible and reset hint overlay
 	characterBoat.visible = false;
 	hintOverlay.visible = false;
@@ -144,6 +149,7 @@ func showHint (text: String):
 # Fishing result → pick a fish → show dialogue
 # ---------------------------------------------------------------------------
 func onFishingEnd(results):
+	SoundManager.unduck_music()
 	characterBoat.visible = true;
 
 	if results == 1: # you caught a fish
@@ -186,6 +192,7 @@ func pickNextFish() -> Fish:
 	return FishData.samuraiFish()
 	
 func showDialogue():
+	SoundManager.duck_music()
 	fishingStatus.visible = false;
 	characterBoat.visible = false;
 	var dialogue_instance = dialogue_scene.instantiate(); # create the dialogue ; create an address
@@ -195,6 +202,7 @@ func showDialogue():
 	dialogue_instance.setup(GameState.currentFish); # puts Fish into instance ; putting furniture into house
 	
 func onDialogueFinished(outcome: String) -> void:
+	SoundManager.unduck_music()
 	fishingStatus.visible = true;
 	item_bar.visible = true;
 	match outcome:
@@ -286,6 +294,7 @@ func onDialogueFinished(outcome: String) -> void:
 # Blackout -> fade into minigame
 # ---------------------------------------------------------------------------
 func doBlackout(message: String) -> void:
+	SoundManager.play_sfx("blackout")
 	var overlay = ColorRect.new()
 	overlay.color = Color(0, 0, 0, 0)
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)

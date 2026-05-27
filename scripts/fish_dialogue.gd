@@ -206,9 +206,7 @@ func _build_choices(choices: Array) -> void:
 
 		if not is_disabled:
 			var next_val = choice["next"]
-			btn.pressed.connect(func():
-				SoundManager.play_click()
-				_on_choice_pressed(next_val))
+			btn.pressed.connect(func(): _on_choice_pressed(next_val))
 
 		choices_box.add_child(btn)
 
@@ -217,6 +215,7 @@ func _clear_choices() -> void:
 		child.queue_free()
 
 func _on_choice_pressed(next_val) -> void:
+	SoundManager.play_sfx("click")
 	_clear_choices()
 		
 	# set offered flags for teru item loop

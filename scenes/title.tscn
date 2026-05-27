@@ -4,7 +4,9 @@
 [ext_resource type="FontFile" uid="uid://dk1exr5mwoepf" path="res://assets/fonts/madoufmg.ttf" id="2_wosw1"]
 [ext_resource type="Script" uid="uid://bao487m5kbp27" path="res://scripts/button_manager.gd" id="3_p6dhs"]
 [ext_resource type="Texture2D" uid="uid://dmqfbanwh0fu8" path="res://assets/rowboat-pixel.png" id="4_pyl7j"]
+[ext_resource type="Texture2D" uid="uid://c25tyle25uvf0" path="res://assets/fishing-pack/Objects/Catch/1.png" id="5_4rr2b"]
 [ext_resource type="Texture2D" uid="uid://dsmeg0yafnmu2" path="res://assets/3.png" id="5_b3w7a"]
+[ext_resource type="FontFile" uid="uid://bqv3gkm82aeci" path="res://assets/fonts/Neothic.ttf" id="5_yql1r"]
 
 [node name="Title" type="Node2D" unique_id=632808523]
 
@@ -14,46 +16,74 @@ scale = Vector2(0.28433648, 0.28433648)
 texture = ExtResource("1_4ignj")
 
 [node name="Title" type="Label" parent="." unique_id=1355160323]
-offset_left = 198.0
-offset_top = 134.0
-offset_right = 468.0
-offset_bottom = 211.0
+offset_left = 122.0
+offset_top = 114.0
+offset_right = 572.0
+offset_bottom = 215.0
 theme_override_colors/font_color = Color(0.19215687, 0.32941177, 0.4862745, 1)
 theme_override_fonts/font = ExtResource("2_wosw1")
-theme_override_font_sizes/font_size = 60
+theme_override_font_sizes/font_size = 100
 text = "departure"
 uppercase = true
-
-[node name="ButtonManager" type="HBoxContainer" parent="." unique_id=573171020]
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 288.0
-offset_right = 655.0
-offset_bottom = 343.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 50
-alignment = 1
-script = ExtResource("3_p6dhs")
-
-[node name="start" type="Button" parent="ButtonManager" unique_id=1781587889]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(1, 0.8901961, 0.6039216, 1)
-theme_override_colors/font_hover_color = Color(1, 0.7490196, 0.42745098, 1)
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("2_wosw1")
-theme_override_font_sizes/font_size = 35
-text = "START"
-flat = true
 
 [node name="RowboatPixel" type="Sprite2D" parent="." unique_id=2146178370]
 position = Vector2(494, 210)
 scale = Vector2(0.44667122, 0.44667113)
 texture = ExtResource("4_pyl7j")
+
+[node name="ButtonManager" type="Control" parent="." unique_id=1824725402]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 224.0
+offset_right = 655.0
+offset_bottom = 366.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("3_p6dhs")
+
+[node name="shadow" type="Button" parent="ButtonManager" unique_id=746696234]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 109.0
+offset_top = 51.0
+offset_right = 572.0
+offset_bottom = 137.0
+theme_override_colors/font_color = Color(0.29411766, 0.7607843, 0.98039216, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_yql1r")
+theme_override_font_sizes/font_size = 40
+text = "start"
+flat = true
+
+[node name="start" type="Button" parent="ButtonManager" unique_id=1781587889]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 108.0
+offset_top = 52.0
+offset_right = 571.0
+offset_bottom = 134.0
+theme_override_colors/font_pressed_color = Color(1, 0.8901961, 0.6039216, 1)
+theme_override_colors/font_hover_color = Color(0.391227, 0.88412184, 0.86037433, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_yql1r")
+theme_override_font_sizes/font_size = 40
+text = "start"
+flat = true
+
+[node name="credits" type="Button" parent="ButtonManager" unique_id=294552941]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 99.0
+offset_right = 640.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("5_yql1r")
+theme_override_font_sizes/font_size = 10
+text = "credits"
+icon = ExtResource("5_4rr2b")
+flat = true
 
 [node name="cloud" type="TextureRect" parent="." unique_id=803367304]
 offset_left = 76.0
@@ -61,6 +91,9 @@ offset_top = 68.0
 offset_right = 700.20087
 offset_bottom = 419.11298
 scale = Vector2(0.73765427, 0.7376543)
+mouse_filter = 2
 texture = ExtResource("5_b3w7a")
 
+[connection signal="pressed" from="ButtonManager/shadow" to="ButtonManager" method="_on_start_pressed"]
 [connection signal="pressed" from="ButtonManager/start" to="ButtonManager" method="_on_start_pressed"]
+[connection signal="pressed" from="ButtonManager/credits" to="ButtonManager" method="_on_credits_pressed"]
