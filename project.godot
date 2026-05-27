@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 FishData="*uid://dgged2ouuiefu"
 GameState="*uid://g8yemdvofpdb"
+SoundManager="*uid://dfb3s2xjbf3u0"
 
 [display]
 

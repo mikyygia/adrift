@@ -29,6 +29,7 @@ var dialogue_scene = preload("res://scenes/fish_dialogue.tscn");
 var firstFishSeen: bool = false; # so that the first fish displays once
 var onDialoguePresent: bool = false;
 
+# item bar
 @onready var item_bar = $Game/ItemBar
 
 # ---------------------------------------------------------------------------
@@ -36,19 +37,19 @@ var onDialoguePresent: bool = false;
 # ---------------------------------------------------------------------------
 func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
-	GameState.grumpy_freed = true
-	GameState.waiting_lady_won = true
-	#GameState.kid_freed = true
-	GameState.freed_souls.append("grumpy_old_man")
-	GameState.freed_souls.append("first_fish")
-	GameState.freed_souls.append("waiting_lady")
-	#GameState.freed_souls.append("kid_fish")
-	firstFishSeen = true
+	#GameState.grumpy_freed = true
+	#GameState.waiting_lady_won = true
+	##GameState.kid_freed = true
+	#GameState.freed_souls.append("grumpy_old_man")
+	#GameState.freed_souls.append("first_fish")
+	#GameState.freed_souls.append("waiting_lady")
+	##GameState.freed_souls.append("kid_fish")
+	#firstFishSeen = true
 	
 	# simulate having the blank card
-	var card_tex = preload("res://assets/items/blank_card.png")
-	GameState.collected_items["blank_arcana"] = true
-	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)  # ← shows it in UI
+	#var card_tex = preload("res://assets/items/blank_card.png")
+	#GameState.collected_items["blank_arcana"] = true
+	#item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)
 	
 	## music sheet
 	#var card_tex2 = preload("res://assets/items/music_sheet.png")
@@ -97,7 +98,7 @@ func gameStarts():
 	fishingStatus.visible = false;
 	item_bar.visible = true;
 	fishingUI.fishingResults.connect(onFishingEnd);
-
+	
 func playSkyScene():
 	# player will wake up looking at the sky
 	# dialogue appears  [ ... ]

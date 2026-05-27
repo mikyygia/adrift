@@ -178,15 +178,7 @@ func _build_choices(choices: Array) -> void:
 		btn.text = "> " + choice["label"]
 		btn.flat = true
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		
-		# font
-		#var font = dialogue_label.get_theme_font("font")
-		#var font_size = dialogue_label.get_theme_font_size("font_size")
-		#if font:
-			#btn.add_theme_font_override("font", font)
-		#if font_size > 0:
-			#btn.add_theme_font_size_override("font_size", font_size)
-		
+
 		# autowrap so long choices don't get cut off
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -214,7 +206,9 @@ func _build_choices(choices: Array) -> void:
 
 		if not is_disabled:
 			var next_val = choice["next"]
-			btn.pressed.connect(func(): _on_choice_pressed(next_val))
+			btn.pressed.connect(func():
+				SoundManager.play_click()
+				_on_choice_pressed(next_val))
 
 		choices_box.add_child(btn)
 
