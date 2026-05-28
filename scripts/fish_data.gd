@@ -220,8 +220,8 @@ static func grumpyOldMan() -> Fish:
 	}
 
 	f.dialogue = [
-		{ "speaker": "fish", "text": "GOOD LORD- HEY! WATCH IT! Nearly tore my shoulder clean off" },
-		{ "speaker": "fish", "text": "Good grief. No warning, no manners... People these days treat reality like a revolving door" },
+		{ "speaker": "fish", "text": "GOOD LORD- \n\nHEY! WATCH IT!\n\nNearly tore my shoulder clean off" },
+		{ "speaker": "fish", "text": "Good grief. No warning, no manners... People these days treat reality like a revolving door", "emotion": "angry" },
 		{
 			"speaker": "player",
 			"text": "",
@@ -244,7 +244,7 @@ static func grumpyOldMan() -> Fish:
 		{ "speaker": "fish", "text": "Intentions matter, I suppose" },
 		{ "speaker": "fish", "text": "People forget that when they're angry" },
 		{ "speaker": "fish", "text": "Hmph. Good." }, 
-		{ "speaker": "fish", "text": "Being careful costs nothing.", "next": -1 },
+		{ "speaker": "fish", "text": "Being careful costs nothing.", "next": 20 },
 		
 		# upset route
 		{
@@ -263,20 +263,20 @@ static func grumpyOldMan() -> Fish:
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "First time for everything~",          "next": 15 },
+				{ "label": "...",          "next": 15 },
 				{ "label": "You talk a lot for a fish.", "next": 18 }
 			]
 		},
-		
-		{ "speaker": "fish", "text": "...Hmph." }, 
+		# i'll be more careful
+		{ "speaker": "fish", "text": "...Hmph" }, 
 		{ "speaker": "fish", "text": "Well." }, 
-		{ "speaker": "fish", "text": "That's more considerate than I expected from you.", "next": -1 },
+		{ "speaker": "fish", "text": "That's more considerate than I expected from you.", "next": 20 },
 		
-		# 9 — bad end
-		{ "speaker": "fish", "text": "THIS is why I avoid people." }, 
+		# bad end
+		{ "speaker": "fish", "text": "Fish? THIS is why I avoid people.", "emotion": "angry" }, 
 		{ "speaker": "fish", "text": "No patience. No respect. Terrible observational skills.", "next": -2 }, 
 		
-		# merge
+		# merge with all good ends
 		{ "speaker": "fish", "text": "Honestly..." }, 
 		{ "speaker": "fish", "text": "Most people are too rough with things." },
 		 { "speaker": "fish", "text": "Objects. Conversations. Each other." }, 

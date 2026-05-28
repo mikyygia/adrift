@@ -37,12 +37,12 @@ var onDialoguePresent: bool = false;
 # ---------------------------------------------------------------------------
 func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
-	#firstFishSeen = true
+	firstFishSeen = true
 	#GameState.grumpy_freed = true
 	#GameState.waiting_lady_won = true
 	#GameState.kid_freed = true
 	#GameState.freed_souls.append("grumpy_old_man")
-	#GameState.freed_souls.append("first_fish")
+	GameState.freed_souls.append("first_fish")
 	#GameState.freed_souls.append("waiting_lady")
 	#GameState.freed_souls.append("kid_fish")
 	
