@@ -3,6 +3,7 @@ extends Node
 
 # preload all sounds here — one place, easy to swap
 const SOUNDS = {
+	"realization": preload("res://audio/sudden-realization.wav"),
 	"ocean":    preload("res://audio/fishing-bgm.wav"),
 	"reel":     preload("res://audio/tossing-rod.mp3"),
 	"click":    preload("res://audio/option-click.mp3"),
@@ -53,7 +54,7 @@ func stop_sfx() -> void:
 func duck_music() -> void:
 	# lower volume during dialogue/reeling, don't stop
 	var t = create_tween()
-	t.tween_property(music, "volume_db", -20.0, 0.5)
+	t.tween_property(music, "volume_db", -10.0, 0.5)
 
 func unduck_music() -> void:
 	# restore volume when returning to idle

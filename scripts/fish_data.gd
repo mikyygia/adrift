@@ -47,7 +47,6 @@ static func getFirstFish() -> Fish:
 #		-2 : fish escapes  / bad end
 # ---------------------------------------------------------------------------
 
-
 static func firstFish() -> Fish:
 	var f = Fish.new()
 	f.fish_name = "???";
@@ -199,76 +198,68 @@ static func grumpyOldMan() -> Fish:
 	}
 
 	f.dialogue = [
-		# 0
-		{
-			"speaker": "fish",
-			"text": "Humph! Careful with that line! Kids these days have no respect at all. Where are your parents? I need to talk to them!",
-		},
-		# 1 — first choice
+		{ "speaker": "fish", "text": "GOOD LORD- HEY! WATCH IT! Nearly tore my shoulder clean off" },
+		{ "speaker": "fish", "text": "Good grief. No warning, no manners... People these days treat reality like a revolving door" },
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "Sorry...",       "next": 2 },
-				{ "label": "You seem upset.", "next": 6 }
+				{ "label": "Sorry...",       "next": 3 },
+				{ "label": "Are you ... upset?", "next": 10 }
 			]
 		},
-		# --- BRANCH A: apologize ---
-		# 2
-		{
-			"speaker": "fish",
-			"text": "At least you know when to apologize. That's rare, these days.",
-		},
-		# 3
+		# apology route
+		{ "speaker": "fish", "text": "Hm. At least you apologized. That's becoming rare" },
+		{ "speaker": "fish", "text": "Most people just stare blankly and ruin my afternoon"},
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "I didn't mean to hurt you.", "next": 4 },
-				{ "label": "I'll be more careful.",      "next": 5 }
+				{ "label": "I didn't mean to hurt you.", "next": 6 },
+				{ "label": "I'll be more careful.",      "next": 15 }
 			]
 		},
-		# 4
+		{ "speaker": "fish", "text": "Intentions matter, I suppose" },
+		{ "speaker": "fish", "text": "People forget that when they're angry" },
+		{ "speaker": "fish", "text": "Hmph. Good." }, 
+		{ "speaker": "fish", "text": "Being careful costs nothing.", "next": -1 },
+		
+		# upset route
 		{
 			"speaker": "fish",
-			"text": "Hmph. Well. Intentions matter, I suppose.",
-			"next": -1,
+			"text": "UPSET?",
 		},
-		# 5
 		{
 			"speaker": "fish",
-			"text": "Good. That's all I ever asked of anyone.",
-			"next": -1
-		},
-		# --- BRANCH B: you seem upset ---
-		# 6
-		{
-			"speaker": "fish",
-			"text": "OF COURSE I AM UPSET! You yanked me out like I was nothing!",
+			"text": "OF COURSE I AM UPSET!",
 			"emotion": "angry",
 		},
-		# 7
+		{ "speaker": "fish", "text": "One moment I'm minding my own business..." },
+		{ "speaker": "fish", "text": "The next moment some mysterious child decides gravity is optional!" },
+		
 		{
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "You're not nothing.",          "next": 8 },
-				{ "label": "You talk a lot for a fish.", "next": 9 }
+				{ "label": "First time for everything~",          "next": 15 },
+				{ "label": "You talk a lot for a fish.", "next": 18 }
 			]
 		},
-		# 8 — good end from branch B
-		{
-			"speaker": "fish",
-			"text": "Hah. Well, that's better than most. Maybe you're not as careless as you look. Very well. Just this once. And your grip needs to be better.",
-			"next": -1
-		},
+		
+		{ "speaker": "fish", "text": "...Hmph." }, 
+		{ "speaker": "fish", "text": "Well." }, 
+		{ "speaker": "fish", "text": "That's more considerate than I expected from you.", "next": -1 },
+		
 		# 9 — bad end
-		{
-			"speaker": "fish",
-			"text": "THIS CHILD— no manners, no patience, no— ugh. I don't have time for this.",
-			"emotion": "angry",
-			"next": -2  # fish runs away
-		}
+		{ "speaker": "fish", "text": "THIS is why I avoid people." }, 
+		{ "speaker": "fish", "text": "No patience. No respect. Terrible observational skills.", "next": -2 }, 
+		
+		# merge
+		{ "speaker": "fish", "text": "Honestly..." }, 
+		{ "speaker": "fish", "text": "Most people are too rough with things." },
+		 { "speaker": "fish", "text": "Objects. Conversations. Each other." }, 
+		{ "speaker": "fish", "text": "You'd be surprised how much gentler the world becomes once you stop treating everything like it owes you something." }, 
+		{ "speaker": "fish", "text": "Now put me down properly before you dislocate my shoulder.", "next": -1 }
 	]
 	return f
 
