@@ -37,24 +37,25 @@ var onDialoguePresent: bool = false;
 # ---------------------------------------------------------------------------
 func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
-	#GameState.grumpy_freed = true
-	#GameState.waiting_lady_won = true
-	##GameState.kid_freed = true
-	#GameState.freed_souls.append("grumpy_old_man")
-	#GameState.freed_souls.append("first_fish")
-	#GameState.freed_souls.append("waiting_lady")
-	##GameState.freed_souls.append("kid_fish")
 	#firstFishSeen = true
+	GameState.grumpy_freed = true
+	GameState.waiting_lady_won = true
+	#GameState.kid_freed = true
+	GameState.freed_souls.append("grumpy_old_man")
+	#GameState.freed_souls.append("first_fish")
+	GameState.freed_souls.append("waiting_lady")
+	#GameState.freed_souls.append("kid_fish")
+	
 	
 	# simulate having the blank card
-	#var card_tex = preload("res://assets/items/blank_card.png")
-	#GameState.collected_items["blank_arcana"] = true
-	#item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)
+	var card_tex = preload("res://assets/items/blank_card.png")
+	GameState.collected_items["blank_arcana"] = true
+	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)
 	
 	## music sheet
-	#var card_tex2 = preload("res://assets/items/music_sheet.png")
-	#GameState.collected_items["music_sheet"] = true
-	#item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
+	var card_tex2 = preload("res://assets/items/music_sheet.png")
+	GameState.collected_items["music_sheet"] = true
+	item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
 	
 	
 	
@@ -294,7 +295,7 @@ func onDialogueFinished(outcome: String) -> void:
 # Blackout -> fade into minigame
 # ---------------------------------------------------------------------------
 func doBlackout(message: String) -> void:
-	SoundManager.play_sfx("blackout")
+	#SoundManager.play_sfx("blackout")
 	var overlay = ColorRect.new()
 	overlay.color = Color(0, 0, 0, 0)
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)

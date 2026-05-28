@@ -53,7 +53,9 @@ static func firstFish() -> Fish:
 	f.fish_name = "???";
 	f.fish_id = "first_fish";
 	f.portraits = {
-		"default": preload("res://assets/fish portrait/first/plain.PNG"),
+		"default": preload("res://assets/fish portrait/first/plainv2.png"),
+		"blush": preload("res://assets/fish portrait/first/Firstfishv2-blush.png"),
+		"doom": preload("res://assets/fish portrait/first/Firstfishv2-down.png")
 	}
 	f.dialogue = [
 		{
@@ -64,13 +66,121 @@ static func firstFish() -> Fish:
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "...",        "next": 2 },
-				{ "label": "Who are you?", "next": 2 }
+				{ "label": "how does your hair dye stay intact underwater", "next": 2 },
+				{ "label": "Who are you?", "next": 15 }
 			]
 		},
 		{
 			"speaker": "fish",
-			"text": "I was... No. That part isn't important. But I will give you advice, kiddo. You shouldn't hold on too tight. It hurts more when you do that.",
+			"text": "Ah. Straight to the important questions.",
+			"emotion": "blush"
+		},
+		{
+			"speaker": "fish",
+			"text": "You like it? Do you want the funny answer, or the real one?",
+			"emotion": "default"
+		},
+		# 4
+		{
+			"speaker": "player",
+			"text": "",
+			"choices": [
+				{ "label": "I didn't say i liked it", "next": 5 },
+				{ "label": "Funny one", "next": 7 },
+				{ "label": "I like a real response", "next": 11 }
+			]
+		},
+		#############
+		# hair route
+		#############
+		# i didn't say i liked it
+		{
+			"speaker": "fish",
+			"text": "You didn't have to. Your eyes already did~ ",
+			"emotion": "blush"
+		},
+		{
+			"speaker": "fish",
+			"text": "And besides... the ocean fears my commitment to color theory.",
+			"emotion": "doom",
+			"next": 17
+			
+		},
+		# funny
+		{
+			"speaker": "fish",
+			"text": "Ancient spirit conditioner!",
+			"emotion": "blush"
+		},
+		{
+			"speaker": "fish",
+			"text": "Three in one. ",
+			"emotion": "default"
+		},
+		{
+			"speaker": "fish",
+			"text": "Shampoo, conditioner, and existential preservation.",
+			"emotion": "default"
+		},
+		{
+			"speaker": "fish",
+			"text": "Eternal loneliness leaves you with lots of time experimenting and hobbies and such of that medium.",
+			"emotion": "default",
+			"next": 17
+		},
+		# real
+		{
+			"speaker": "fish",
+			"text": "I drowned before the dye could fade",
+			"emotion": "doom",
+		},
+		{
+			"speaker": "fish",
+			"text": "...",
+		},
+		{
+			"speaker": "fish",
+			"text": "Haha~! Your expression was priceless~ I'm only kidding. Mostly.",
+			"emotion": "default",
+		},
+		{
+			"speaker": "fish",
+			"text": "I'm only kidding. Mostly.",
+			"emotion": "blush",
+			"next": 17
+		},
+		
+		# who are you route
+		{
+			"speaker": "fish",
+			"text": "I was someone once",
+			"emotion": "default",
+		},
+		{
+			"speaker": "fish",
+			"text": "But that part isn't too important",
+			"emotion": "default",
+			"next": 17
+		},
+		
+		## everything ends here
+		{
+			"speaker": "fish",
+			"text": "Anyways, enough about me ...",
+			"emotion": "default",
+		},
+		{
+			"speaker": "fish",
+			"text": "Let me give you one piece of advice",
+		},
+		{
+			"speaker": "fish",
+			"text": "You do not have to carry every sentence someone hands you",
+		},
+		{
+			"speaker": "fish",
+			"text": "Accept what feels true to you, and let go of what doesn’t",
+			"emotion": "default",
 			"next": -1  # escape (good end)
 		}
 	]
@@ -563,7 +673,7 @@ static func kidFish():
 		# 24
 		{
 			"speaker": "fish",
-			"text": "My brother is good at studying. Good at talking. Everyone loves him. I thought if I were just like him... I wouldn't have to be lonely.",
+			"text": "My brother is good at studying and talking. Everyone loves him. I thought if I were just like him... people would like me too",
 			"delay": 2.5
 		},
 		# 25

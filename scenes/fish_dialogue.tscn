@@ -3,13 +3,14 @@
 [ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="1_csfld"]
 [ext_resource type="Script" uid="uid://cwh57rdeadxt2" path="res://scripts/fish_dialogue.gd" id="1_u6h5j"]
 [ext_resource type="FontFile" uid="uid://dk1exr5mwoepf" path="res://assets/fonts/madoufmg.ttf" id="2_u6h5j"]
+[ext_resource type="Texture2D" uid="uid://deoyq2ilm4q21" path="res://assets/dialogue/test.png" id="2_vp5io"]
 [ext_resource type="Texture2D" uid="uid://civjj1ckajbgk" path="res://assets/fish portrait/grumpy-man/man.PNG" id="4_u6h5j"]
 
 [node name="fishDialogue" type="CanvasLayer" unique_id=985572632]
 script = ExtResource("1_u6h5j")
 
 [node name="control" type="Control" parent="." unique_id=842121313]
-custom_minimum_size = Vector2(500, 250)
+custom_minimum_size = Vector2(550, 250)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,36 +33,44 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Test" type="Sprite2D" parent="control/Panel" unique_id=1699089841]
+position = Vector2(273.9148, 130.5)
+scale = Vector2(0.36292535, 0.4137542)
+texture = ExtResource("2_vp5io")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="control/Panel" unique_id=922352845]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -245.0
-offset_top = -102.5
-offset_right = 255.0
-offset_bottom = 100.0
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -2.0
+offset_right = 6.0
+offset_bottom = 19.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
+alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="control/Panel/HBoxContainer" unique_id=3724830]
 layout_mode = 2
-theme_override_constants/separation = 10
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 20
 
 [node name="alias" type="Label" parent="control/Panel/HBoxContainer/VBoxContainer" unique_id=859763983]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38039216, 0.67058825, 0.83137256, 1)
 theme_override_colors/font_shadow_color = Color(0.34901962, 0.5019608, 0.8, 1)
 theme_override_fonts/font = ExtResource("1_csfld")
+theme_override_font_sizes/font_size = 20
 text = "blewish"
 uppercase = true
 
 [node name="dialogue" type="Label" parent="control/Panel/HBoxContainer/VBoxContainer" unique_id=127392329]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
+size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("1_csfld")
 text = "blurb blurb im a blue fish. what else does a fish say"
 vertical_alignment = 1
@@ -76,6 +85,7 @@ theme_override_constants/separation = 15
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7137577, 0.7206708, 0.13539767, 1)
 theme_override_fonts/font = ExtResource("2_u6h5j")
+theme_override_font_sizes/font_size = 14
 text = "> where's your spark?? something something example text"
 flat = true
 alignment = 0
@@ -86,15 +96,29 @@ autowrap_trim_flags = 192
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7137255, 0.72156864, 0.13725491, 1)
 theme_override_fonts/font = ExtResource("2_u6h5j")
+theme_override_font_sizes/font_size = 14
 text = "> hello world something something example choice ???"
 flat = true
 alignment = 0
 autowrap_mode = 3
 
-[node name="portrait" type="TextureRect" parent="control/Panel/HBoxContainer" unique_id=1808326021]
+[node name="PanelContainer" type="Control" parent="control/Panel/HBoxContainer" unique_id=1014130953]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="portrait" type="TextureRect" parent="control/Panel/HBoxContainer/PanelContainer" unique_id=1808326021]
 texture_filter = 1
 custom_minimum_size = Vector2(180, 0)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("4_u6h5j")
 expand_mode = 4
 stretch_mode = 5

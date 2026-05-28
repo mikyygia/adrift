@@ -9,7 +9,8 @@ extends CanvasLayer
 #             alias       (Label)
 #             dialogue    (Label)
 #             choices     (VBoxContainer)
-#           portrait      (TextureRect)
+#			PanelContainer/
+#            portrait      (TextureRect)
 # ---------------------------------------------------------------------------
 
 signal dialogue_finished(outcome: String)
@@ -18,7 +19,7 @@ signal dialogue_finished(outcome: String)
 @onready var alias_label    = $control/Panel/HBoxContainer/VBoxContainer/alias
 @onready var dialogue_label = $control/Panel/HBoxContainer/VBoxContainer/dialogue
 @onready var choices_box    = $control/Panel/HBoxContainer/VBoxContainer/choices
-@onready var portrait_rect  = $control/Panel/HBoxContainer/portrait
+@onready var portrait_rect  = $control/Panel/HBoxContainer/PanelContainer/portrait
 
 var fish: Fish;
 var current_step: int = 0; # bookmark of where you are in dialogue array cuz fish dialogue is just an array of steps
@@ -217,13 +218,17 @@ func _clear_choices() -> void:
 func _on_choice_pressed(next_val) -> void:
 	SoundManager.play_sfx("click")
 	_clear_choices()
-		
+	
+	#TODO FIX. this works for teru but waiting lady crashes
+	# cuz next_val = "blackout"
+	
 	# set offered flags for teru item loop
-	if next_val == 41:  # music sheet
-		GameState.flags["teru_offered_sheet"] = true
-		GameState.flags["teru_offered_anything"] = true
-	elif next_val in [78, 85, 90]:  # stone, feather, card
-		GameState.flags["teru_offered_anything"] = true
+	if next_val is int:
+		if next_val == 41:
+			GameState.flags["teru_offered_sheet"] = true
+			GameState.flags["teru_offered_anything"] = true
+		elif next_val in [78, 85, 90]:
+			GameState.flags["teru_offered_anything"] = true
 	
 	_resolve_next(next_val)
 

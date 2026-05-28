@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmle7f4c7q8bu"
-path="res://.godot/imported/kid.png-a051c919cd50e42d68494a2aec223f0b.ctex"
+uid="uid://deoyq2ilm4q21"
+path="res://.godot/imported/test.png-01f6ca76eb44a0af4a589769765694c9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/fish portrait/kid/kid.png"
-dest_files=["res://.godot/imported/kid.png-a051c919cd50e42d68494a2aec223f0b.ctex"]
+source_file="res://assets/dialogue/test.png"
+dest_files=["res://.godot/imported/test.png-01f6ca76eb44a0af4a589769765694c9.ctex"]
 
 [params]
 

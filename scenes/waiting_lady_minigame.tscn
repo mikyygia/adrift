@@ -92,7 +92,6 @@ scale = Vector2(1.6607144, 1.6607145)
 texture = ExtResource("12_bhpuc")
 
 [node name="TutorialPanel" type="Panel" parent="." unique_id=667933506]
-visible = false
 self_modulate = Color(0, 0, 0, 1)
 offset_top = -6.0
 offset_right = 657.0
