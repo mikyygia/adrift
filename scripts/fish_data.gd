@@ -89,9 +89,7 @@ static func firstFish() -> Fish:
 				{ "label": "I like a real response", "next": 11 }
 			]
 		},
-		#############
 		# hair route
-		#############
 		# i didn't say i liked it
 		{
 			"speaker": "fish",
@@ -123,7 +121,7 @@ static func firstFish() -> Fish:
 		},
 		{
 			"speaker": "fish",
-			"text": "Eternal loneliness leaves you with lots of time experimenting and hobbies and such of that medium.",
+			"text": "Eternal loneliness leaves you with lots of time experimenting and trying new hobbies, new hair colors... and such of that medium.",
 			"emotion": "default",
 			"next": 17
 		},
@@ -139,7 +137,7 @@ static func firstFish() -> Fish:
 		},
 		{
 			"speaker": "fish",
-			"text": "Haha~! Your expression was priceless~ I'm only kidding. Mostly.",
+			"text": "Haha~! Your expression was priceless~",
 			"emotion": "default",
 		},
 		{
@@ -166,15 +164,39 @@ static func firstFish() -> Fish:
 		{
 			"speaker": "fish",
 			"text": "Anyways, enough about me ...",
+			"emotion": "blush",
+		},
+		{
+			"speaker": "fish",
+			"text": "Switching to a slighter serious mode ... and this may be a bit heavy",
+			"emotion": "doom",
+		},
+		{
+			"speaker": "fish",
+			"text": "There's going to be a long road (or water) ahead of you",
+		},
+		{
+			"speaker": "fish",
+			"text": "You're going to have to live with choices you make for the rest of your life",
+		},
+		{
+			"speaker": "fish",
+			"text": "I advice you to think very carefully about what it is you really want before it's too late",
+		},
+		{
+			"speaker": "fish",
+			"text": "Okay serious mode over~",
+			"emotion": "blush",
+		},
+		{
+			"speaker": "fish",
+			"text": "Just one more thing before I go ...",
 			"emotion": "default",
 		},
 		{
 			"speaker": "fish",
-			"text": "Let me give you one piece of advice",
-		},
-		{
-			"speaker": "fish",
 			"text": "You do not have to carry every sentence someone hands you",
+			"emotion": "default",
 		},
 		{
 			"speaker": "fish",
@@ -193,8 +215,8 @@ static func grumpyOldMan() -> Fish:
 	f.fish_name = "Grumpy Man"
 	f.fish_id = "grumpy_old_man";
 	f.portraits = {
-		"default": preload("res://assets/fish portrait/grumpy-man/man.PNG"),
-		"angry": preload("res://assets/fish portrait/grumpy-man/man_angry.PNG"),
+		"default": preload("res://assets/fish portrait/grumpy-man/Oldmanv2.png"),
+		"angry": preload("res://assets/fish portrait/grumpy-man/Oldmanv2-angry.png"),
 	}
 
 	f.dialogue = [

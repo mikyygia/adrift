@@ -91,11 +91,12 @@ offset_bottom = 180.0
 [node name="FishStatus" type="Label" parent="Game" unique_id=1724884071]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 111.0
-offset_top = 283.0
-offset_right = 329.0
-offset_bottom = 325.0
-theme_override_font_sizes/font_size = 30
+offset_left = 223.0
+offset_top = 302.0
+offset_right = 441.0
+offset_bottom = 344.0
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
 
 [node name="characterBoat" type="Control" parent="Game" unique_id=441310324]
 anchors_preset = 0
@@ -104,12 +105,14 @@ offset_bottom = 40.0
 script = ExtResource("5_85g3d")
 
 [node name="Player" type="Sprite2D" parent="Game/characterBoat" unique_id=316514706]
+modulate = Color(0.684259, 0.68425906, 0.68425906, 1)
 texture_filter = 1
 position = Vector2(163.38736, 231.49998)
 scale = Vector2(2.7187495, 2.7187495)
 texture = ExtResource("17_0ld40")
 
 [node name="Boat" type="Sprite2D" parent="Game/characterBoat" unique_id=2118883530]
+modulate = Color(0.7198712, 0.7198712, 0.71987116, 1)
 texture_filter = 1
 position = Vector2(169.88736, 259)
 scale = Vector2(2.3483071, 2.3483074)
@@ -117,10 +120,10 @@ texture = ExtResource("11_ya4ey")
 
 [node name="HintOverlay" type="Label" parent="Game" unique_id=1610239173]
 layout_mode = 0
-offset_left = 199.0
-offset_top = 143.0
-offset_right = 318.0
-offset_bottom = 166.0
+offset_left = 102.0
+offset_top = 148.0
+offset_right = 225.0
+offset_bottom = 171.0
 theme_override_fonts/font = ExtResource("11_eb6dy")
 text = "i'm starving"
 

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cwh57rdeadxt2" path="res://scripts/fish_dialogue.gd" id="1_u6h5j"]
 [ext_resource type="FontFile" uid="uid://dk1exr5mwoepf" path="res://assets/fonts/madoufmg.ttf" id="2_u6h5j"]
 [ext_resource type="Texture2D" uid="uid://deoyq2ilm4q21" path="res://assets/dialogue/test.png" id="2_vp5io"]
-[ext_resource type="Texture2D" uid="uid://civjj1ckajbgk" path="res://assets/fish portrait/grumpy-man/man.PNG" id="4_u6h5j"]
+[ext_resource type="Texture2D" uid="uid://scttsmqhl28i" path="res://assets/fish portrait/grumpy-man/Oldmanv2.png" id="5_vp5io"]
 
 [node name="fishDialogue" type="CanvasLayer" unique_id=985572632]
 script = ExtResource("1_u6h5j")
@@ -119,6 +119,6 @@ offset_right = 3.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_u6h5j")
+texture = ExtResource("5_vp5io")
 expand_mode = 4
 stretch_mode = 5

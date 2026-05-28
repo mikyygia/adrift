@@ -37,13 +37,13 @@ var onDialoguePresent: bool = false;
 # ---------------------------------------------------------------------------
 func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
-	firstFishSeen = true
+	#firstFishSeen = true
 	#GameState.grumpy_freed = true
-	GameState.waiting_lady_won = true
+	#GameState.waiting_lady_won = true
 	#GameState.kid_freed = true
 	#GameState.freed_souls.append("grumpy_old_man")
-	GameState.freed_souls.append("first_fish")
-	GameState.freed_souls.append("waiting_lady")
+	#GameState.freed_souls.append("first_fish")
+	#GameState.freed_souls.append("waiting_lady")
 	#GameState.freed_souls.append("kid_fish")
 	
 	
@@ -150,7 +150,6 @@ func showHint (text: String):
 # Fishing result → pick a fish → show dialogue
 # ---------------------------------------------------------------------------
 func onFishingEnd(results):
-	SoundManager.unduck_music()
 	characterBoat.visible = true;
 
 	if results == 1: # you caught a fish
@@ -193,7 +192,6 @@ func pickNextFish() -> Fish:
 	return FishData.samuraiFish()
 	
 func showDialogue():
-	SoundManager.play_sfx("realization")
 	SoundManager.duck_music()
 	fishingStatus.visible = false;
 	characterBoat.visible = false;
@@ -211,11 +209,11 @@ func onDialogueFinished(outcome: String) -> void:
 		"freed":
 			characterBoat.visible = true;
 			GameState.free_soul(GameState.currentFish.fish_id);
-			fishingStatus.text = "The soul dissolves into light...";
+			fishingStatus.text = "the soul dissolves into light...";
 			soul_freed_effect()
 			onDialoguePresent = false
 			
-			soulFreedLabel.text = "souls freed: " + str(GameState.freed_souls.size())
+			soulFreedLabel.text = "souls resolved: " + str(GameState.freed_souls.size())
 
 		"ran_away":
 			characterBoat.visible = true;

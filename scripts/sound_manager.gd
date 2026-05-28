@@ -3,7 +3,6 @@ extends Node
 
 # preload all sounds here — one place, easy to swap
 const SOUNDS = {
-	"realization": preload("res://audio/sudden-realization.wav"),
 	"ocean":    preload("res://audio/fishing-bgm.wav"),
 	"reel":     preload("res://audio/tossing-rod.mp3"),
 	"click":    preload("res://audio/option-click.mp3"),
