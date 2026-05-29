@@ -5,7 +5,7 @@ signal all_collected
 
 @export var present_scene: PackedScene
 
-const PRESENTS_PER_STAGE = [1, 1, 1];
+const PRESENTS_PER_STAGE = [3, 3, 3];
 
 var screen_size: Vector2
 var presents_remaining: int = 0

@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://bmmxllfglp50h"]
 
 [ext_resource type="Script" uid="uid://2rqkgjworfv7" path="res://scripts/fishing_ui.gd" id="1_ulnet"]
+[ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="2_4t3hb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulnet"]
+bg_color = Color(0.3019608, 0.4627451, 1, 1)
+border_color = Color(0.054533854, 0.014918403, 0.009391672, 1)
 
 [node name="FishingUI" type="Control" unique_id=1332898019]
 layout_mode = 3
@@ -52,6 +57,29 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Goal" type="Label" parent="." unique_id=1620125720]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=366820449]
+custom_minimum_size = Vector2(20, 200)
+layout_mode = 1
+offset_left = -255.0
+offset_top = -77.0
+offset_right = -235.0
+offset_bottom = 123.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ulnet")
+fill_mode = 3
+show_percentage = false
+
+[node name="FillMeterLabel" type="Label" parent="." unique_id=1991233829]
+layout_mode = 0
+offset_left = -282.0
+offset_top = -96.0
+offset_right = -205.0
+offset_bottom = -80.0
+theme_override_fonts/font = ExtResource("2_4t3hb")
+theme_override_font_sizes/font_size = 12
+text = "fill meter"
+horizontal_alignment = 1

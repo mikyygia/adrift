@@ -11,9 +11,9 @@ var active: bool = false
 
 # stage configs — [min_cakes, max_cakes, min_speed, max_speed]
 const STAGE_CONFIGS = [
-	{ "min_cakes": 3, "max_cakes": 5, "min_speed": 160.0, "max_speed": 220.0 },  # stage 1
-	{ "min_cakes": 4, "max_cakes": 6, "min_speed": 180.0, "max_speed": 260.0 },  # stage 2
-	{ "min_cakes": 5, "max_cakes": 8, "min_speed": 250.0, "max_speed": 300.0 },  # stage 3
+	{ "min_cakes": 3, "max_cakes": 4, "min_speed": 200.0, "max_speed": 230.0 },  # stage 1
+	{ "min_cakes": 6, "max_cakes": 8, "min_speed": 210.0, "max_speed": 260.0 },  # stage 2
+	{ "min_cakes": 7, "max_cakes": 11, "min_speed": 250.0, "max_speed": 300.0 },  # stage 3
 ]
 
 var current_config: Dictionary
@@ -21,7 +21,7 @@ var current_config: Dictionary
 func _ready() -> void:
 	screen_size = get_tree().root.get_visible_rect().size;
 	timer = Timer.new()
-	timer.wait_time = 3.0
+	timer.wait_time = 2.0
 	timer.timeout.connect(_spawn_wave)
 	add_child(timer)
 
@@ -41,7 +41,7 @@ func _spawn_wave() -> void:
 	var count = randi_range(current_config.min_cakes, current_config.max_cakes)
 	for i in range(count):
 		var cake = cake_scene.instantiate()
-		cake.position = Vector2(randf_range(40, screen_size.x - 40), -40)
+		cake.position = Vector2(randf_range(50, screen_size.x - 40), -40)
 		cake.speed = randf_range(current_config.min_speed, current_config.max_speed)
 		
 		cake.hit_player.connect(func(): 

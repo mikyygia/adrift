@@ -37,25 +37,25 @@ var onDialoguePresent: bool = false;
 # ---------------------------------------------------------------------------
 func _ready() -> void:
 	########### ── DEV SKIP — remove before final build ── ###########
-	firstFishSeen = true
+	#firstFishSeen = true
 	#GameState.grumpy_freed = true
 	#GameState.waiting_lady_won = true
-	#GameState.kid_freed = true
+	##GameState.kid_freed = true
 	#GameState.freed_souls.append("grumpy_old_man")
-	GameState.freed_souls.append("first_fish")
+	#GameState.freed_souls.append("first_fish")
 	#GameState.freed_souls.append("waiting_lady")
 	#GameState.freed_souls.append("kid_fish")
 	
 	
 	# simulate having the blank card
-	var card_tex = preload("res://assets/items/blank_card.png")
-	GameState.collected_items["blank_arcana"] = true
-	item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)
+	#var card_tex = preload("res://assets/items/blank_card.png")
+	#GameState.collected_items["blank_arcana"] = true
+	#item_bar.add_item("blank_arcana", "Blank Arcana Card", card_tex)
 	
 	## music sheet
-	var card_tex2 = preload("res://assets/items/music_sheet.png")
-	GameState.collected_items["music_sheet"] = true
-	item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
+	#var card_tex2 = preload("res://assets/items/music_sheet.png")
+	#GameState.collected_items["music_sheet"] = true
+	#item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
 	
 	
 	
@@ -202,14 +202,13 @@ func showDialogue():
 	dialogue_instance.setup(GameState.currentFish); # puts Fish into instance ; putting furniture into house
 	
 func onDialogueFinished(outcome: String) -> void:
-	SoundManager.unduck_music()
 	fishingStatus.visible = true;
 	item_bar.visible = true;
 	match outcome:
 		"freed":
 			characterBoat.visible = true;
 			GameState.free_soul(GameState.currentFish.fish_id);
-			fishingStatus.text = "the soul dissolves into light...";
+			fishingStatus.text = "this soul dissolves into light...";
 			soul_freed_effect()
 			onDialoguePresent = false
 			
@@ -224,6 +223,7 @@ func onDialogueFinished(outcome: String) -> void:
 			onDialoguePresent = false
 
 		"blackout":
+			SoundManager.play_sfx("blackout")
 			fishingStatus.text = "The fish got away."
 			# Waiting Lady — player ate the cake
 			doBlackout("YOU PASSED OUT.\nWhy would you eat something offered by a stranger :/")
@@ -286,6 +286,8 @@ func onDialogueFinished(outcome: String) -> void:
 			onDialoguePresent = false
 			characterBoat.visible = true
 			_begin_tarot()
+	
+	SoundManager.unduck_music()
 		
 	print("SOUL " + outcome + "\n" 
 		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n");

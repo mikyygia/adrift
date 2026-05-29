@@ -636,7 +636,7 @@ static func kidFish():
 		# 17
 		{
 			"speaker": "fish",
-			"text": "I'm sorry if the questions were hard. I know it's not always fun playing with me.",
+			"text": "I'm sorry if the questions were hard. I don't really get to play with people much.",
 			"delay": 1.8
 		},
 		# 18 — third choice
@@ -668,7 +668,7 @@ static func kidFish():
 		# 21
 		{
 			"speaker": "fish",
-			"text": "You mean it...",
+			"text": "... really? You actually had fun",
 			"delay": 1.8
 		},
 		# 22
@@ -686,13 +686,13 @@ static func kidFish():
 		# 24
 		{
 			"speaker": "fish",
-			"text": "My brother is good at studying and talking. Everyone loves him. I thought if I were just like him... people would like me too",
+			"text": "My brother always knew the right thing to say. Teachers liked him. Adults liked him. So I figured if I got smart enough... people would like me too",
 			"delay": 2.5
 		},
 		# 25
 		{
 			"speaker": "fish",
-			"text": "I thought my parents would finally love me too.",
+			"text": "...I thought maybe they'd look at me the same way they looked at him.",
 			"delay": 2.8
 		},
 		# 26 — fourth choice
@@ -700,7 +700,7 @@ static func kidFish():
 			"speaker": "player",
 			"text": "",
 			"choices": [
-				{ "label": "You don't need to be your brother. Would you want to be my friend?", "next": 27 },
+				{ "label": "We could play again sometime.", "next": 27 },
 				{ "label": "Those were incredible questions. You should be proud of the mind that made them.", "next": 31 }
 			]
 		},
@@ -802,7 +802,7 @@ static func kidFish():
 static func samuraiFish() -> Fish:
 	var f = Fish.new()
 	f.fish_id = "samurai_fish"
-	f.fish_name = "Teru"
+	f.fish_name = "Samurai Guy"
 	f.portraits = {
 		"default": preload("res://assets/fish portrait/samurai/teru.png"),
 		"blank":   preload("res://assets/fish portrait/samurai/teru_blank.png"),

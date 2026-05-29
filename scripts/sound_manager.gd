@@ -7,6 +7,8 @@ const SOUNDS = {
 	"reel":     preload("res://audio/tossing-rod.mp3"),
 	"click":    preload("res://audio/option-click.mp3"),
 	"blackout": preload("res://audio/lady-blackout.wav"),
+	"bar-success": preload("res://audio/fishbar-succeed.wav"),
+	"bar-fail": preload("res://audio/fishbar-fail.wav"),
 	#"leaves":   preload("res://audio/leaves.ogg"),
 	#"freed":    preload("res://audio/soul_freed.ogg"),
 }
