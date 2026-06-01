@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://levleyi25rsp"]
+
+[ext_resource type="Script" uid="uid://b13iqqr3lcl2x" path="res://scripts/tarot_scene.gd" id="1_gy2hp"]
+[ext_resource type="FontFile" uid="uid://dch7eeaxa2mt6" path="res://assets/fonts/DepartureMono-Regular.otf" id="2_bqykf"]
+[ext_resource type="Texture2D" uid="uid://340s7xt5wqnr" path="res://assets/fish portrait/tarot-lady/tarot-lady.png" id="2_r2p87"]
+
+[node name="TarotScene" type="CanvasLayer" unique_id=784824684]
+script = ExtResource("1_gy2hp")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1272044057]
+offset_top = -1.0
+offset_right = 635.0
+offset_bottom = 358.0
+color = Color(0.1610392, 0.1610392, 0.1610392, 1)
+
+[node name="CharacterArt" type="TextureRect" parent="." unique_id=1858727383]
+offset_left = 183.0
+offset_top = -22.0
+offset_right = 450.0
+offset_bottom = 360.25186
+texture = ExtResource("2_r2p87")
+expand_mode = 1
+
+[node name="DialogueBar" type="Panel" parent="." unique_id=1182502548]
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 95.0
+offset_top = 242.0
+offset_right = 552.0
+offset_bottom = 341.0
+
+[node name="SpeakerLabel" type="Label" parent="DialogueBar" unique_id=847229086]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 131.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0.5921569, 0.7294118, 1, 1)
+theme_override_fonts/font = ExtResource("2_bqykf")
+text = "mysterious woman"
+
+[node name="DialogueLabel" type="Label" parent="DialogueBar" unique_id=1680492105]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 29.0
+offset_right = 386.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 12
+text = "dialogue goes here"
+
+[node name="WinLosePanel" type="Panel" parent="." unique_id=213743416]
+visible = false
+offset_left = 519.0
+offset_top = 28.0
+offset_right = 626.0
+offset_bottom = 60.0
+
+[node name="WinButton" type="Button" parent="WinLosePanel" unique_id=1299718630]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "win"
+
+[node name="LoseButton" type="Button" parent="WinLosePanel" unique_id=42481181]
+layout_mode = 0
+offset_left = 66.0
+offset_right = 106.0
+offset_bottom = 31.0
+text = "lose"

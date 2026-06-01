@@ -823,13 +823,9 @@ static func _teruDialogue() -> Array:
 		# ── OPENING ─────────────────────────────────────────────────────
 		# 0
 		{ "speaker": "monologue", "text": "The wind moves over the water.", "delay": 2.0 },
-		# 1
-		{ "speaker": "monologue", "text": "A figure — one hand resting against the sheath of a sword.", "delay": 2.2 },
-		# 2
+		{ "speaker": "monologue", "text": "You see a figure with one hand resting against the sheath of a sword.", "delay": 2.2 },
 		{ "speaker": "fish", "text": "...", "delay": 2.5, "emotion": "blank" },
-		# 3
-		{ "speaker": "monologue", "text": "He looks at you.", "delay": 1.5 },
-		# 4
+		{ "speaker": "monologue", "text": "He looks at you", "delay": 1.5 },
 		{
 			"speaker": "player", "text": "",
 			"choices": [
@@ -838,40 +834,32 @@ static func _teruDialogue() -> Array:
 			]
 		},
 		# 5
-		{ "speaker": "fish", "text": "You're far from shore.", "delay": 1.6 },
-		# 6
-		{ "speaker": "fish", "text": "People don't usually come this far out.", "delay": 1.8 },
+		{ "speaker": "fish", "text": "You're very far from shore", "delay": 1.6 },
+		{ "speaker": "fish", "text": "People aren't usually this far out.", "delay": 1.8 },
 		# 7 — branch split
 		{
 			"speaker": "player", "text": "",
 			"choices": [
 				{ "label": "Are you like some guardian of these waters?", "next": 8 },
-				{ "label": "You seem used to this.",                       "next": 16 }
+				{ "label": "Why are you out here?",                       "next": 17 }
 			]
 		},
 
 		# ── BRANCH 1 OP1: Guardian ───────────────────────────────────────
 		# 8
-		{ "speaker": "fish", "text": "Guardian.", "delay": 1.2 },
-		# 9
+		{ "speaker": "fish", "text": "Guardian...?", "delay": 1.2 },
 		{ "speaker": "monologue", "text": "He tilts his head slightly.", "delay": 1.0 },
-		# 10
-		{ "speaker": "fish", "text": "No.", "delay": 1.4 },
-		# 11
-		{ "speaker": "fish", "text": "Most things out here survive fine without being watched.", "delay": 2.0 },
-		# 12
+		{ "speaker": "fish", "text": "Haha. No.", "delay": 1.4 },
+		{ "speaker": "fish", "text": "Most things that made it this far out here survive fine without being watched.", "delay": 2.0 },
 		{
 			"speaker": "player", "text": "",
 			"choices": [
-				{ "label": "Watching? Is there something you're hoping to see?", "next": 13 }
+				{ "label": "Is there something you're hoping to see?", "next": 13 }
 			]
 		},
-		# 13
 		{ "speaker": "monologue", "text": "The question lingers in the air between them.", "delay": 1.8 },
-		# 14
 		{ "speaker": "fish", "text": "...", "delay": 2.5, "emotion": "blank" },
-		# 15
-		{ "speaker": "fish", "text": "No.", "delay": 1.2 },
+		{ "speaker": "fish", "text": "No", "delay": 1.2 },
 		# 15b
 		{
 			"speaker": "player", "text": "",
@@ -884,18 +872,14 @@ static func _teruDialogue() -> Array:
 		# ── BRANCH 1 OP2: Duty ───────────────────────────────────────────
 		# 16
 		{ "speaker": "monologue", "text": "He glances briefly at his own hands.", "delay": 1.4 },
-		# 17
-		{ "speaker": "fish", "text": "... It is my duty.", "delay": 1.8, "emotion": "blank" },
-		# 18
+		{ "speaker": "fish", "text": "... It is my duty", "delay": 1.8, "emotion": "blank" },
 		{
 			"speaker": "player", "text": "",
 			"choices": [
-				{ "label": "What do you do?", "next": 19 }
+				{ "label": "What do you do?", "next": 20 }
 			]
 		},
-		# 19
-		{ "speaker": "fish", "text": "What needs doing.", "delay": 1.4 },
-		# 20
+		{ "speaker": "fish", "text": "I haven't thought of that", "delay": 1.4 },
 		{ "speaker": "fish", "text": "I have done this long enough that I don't have to think about it anymore.", "delay": 2.2 },
 		# 21
 		{ "speaker": "fish", "text": "I'm not sure if that's a good thing.", "delay": 2.0, "next": 26 },
@@ -903,21 +887,21 @@ static func _teruDialogue() -> Array:
 
 		# ── SHARED: water is quiet ───────────────────────────────────────
 		# 23 (reached from branch 1 op1)
-		{ "speaker": "fish", "text": "The water is quiet.", "delay": 1.6 },
+		{ "speaker": "fish", "text": "It's quiet unlike most places", "delay": 1.6 },
 		# 24
-		{ "speaker": "fish", "text": "Most places are not.", "delay": 1.8, "next": 26 },
+		{ "speaker": "fish", "text": "", "delay": 1.8, "next": 26 },
 
 		# ── TRANSITION TO ITEM LOOP ──────────────────────────────────────
 		# 26
 		{ "speaker": "monologue", "text": "He notices the objects on your boat.", "delay": 1.6 },
 		# 27
-		{ "speaker": "monologue", "text": "The wind shifts slightly.", "delay": 1.2 },
+		{ "speaker": "monologue", "text": "...", "delay": 1.2 },
 		# 28
 		{ "speaker": "monologue", "text": "His attention drifts toward the things you've collected.", "delay": 1.8 },
 
 		# ── ITEM LOOP (player returns here after each item) ───────────────
 		# 29 — the loop anchor
-		{ "speaker": "fish", "text": "The distance between you and him increases again.", "delay": 1.8 },
+		{ "speaker": "fish", "text": "He doesn't say anything", "delay": 1.8 },
 		# 30 — item choices
 		{
 			"speaker": "player", "text": "",
@@ -927,85 +911,59 @@ static func _teruDialogue() -> Array:
 
 		# ── LEAVE (OP5) ───────────────────────────────────────────────────
 		# 31 — leave, offered nothing
-		{ "speaker": "monologue", "text": "He watches you go.", "delay": 1.4 },
-		# 32
+		{ "speaker": "monologue", "text": "He watches you go", "delay": 1.4 },
 		{ "speaker": "monologue", "text": "He says nothing. His hand rests back against the sheath.", "delay": 1.8 },
-		# 33
-		{ "speaker": "monologue", "text": "He glances once at your boat.", "delay": 1.4 },
-		# 34
-		{ "speaker": "monologue", "text": "Then away.", "delay": 1.2 },
-		# 35
+		{ "speaker": "monologue", "text": "He glances once at your boat", "delay": 1.4 },
+		{ "speaker": "monologue", "text": "Then away", "delay": 1.2 },
 		{ "speaker": "monologue", "text": "The water fills the silence easily.", "delay": 2.0, "next": "tarot_begin" },
 
 		# 36 — leave, offered sheet
-		{ "speaker": "monologue", "text": "He doesn't watch you go.", "delay": 1.4 },
-		# 37
-		{ "speaker": "monologue", "text": "He is already looking at the water.", "delay": 1.6 },
-		# 38
-		{ "speaker": "monologue", "text": "But his hand is no longer on the sword.", "delay": 2.0, "next": "give_memory_fragment" },
+		{ "speaker": "monologue", "text": "He doesn't watch you go", "delay": 1.4 },
+		{ "speaker": "monologue", "text": "He is already looking at the water", "delay": 1.6 },
+		{ "speaker": "monologue", "text": "But his hand is no longer on the sword", "delay": 2.0, "next": "give_memory_fragment" },
 
 		# 39 — leave, offered other items but not sheet
 		{ "speaker": "fish", "text": "...", "delay": 1.5, "emotion": "blank" },
-		# 40
 		{ "speaker": "fish", "text": "Safe crossing.", "delay": 1.8, "next": "tarot_begin" },
 
 		# ── MUSIC SHEET PATH (steps 41–73) ───────────────────────────────
 		# 41
 		{ "speaker": "fish", "text": "...", "delay": 2.0, "emotion": "blank" },
-		# 42
 		{ "speaker": "fish", "text": "?!", "delay": 0.8 },
-		# 43
-		{ "speaker": "fish", "text": "Where did you get this.", "delay": 1.6 },
-		# 44
+		{ "speaker": "fish", "text": "Where did you get this", "delay": 1.6 },
 		{
 			"speaker": "player", "text": "",
 			"choices": [
 				{ "label": "I picked it up somewhere.", "next": 45 }
 			]
 		},
-		# 45
 		{ "speaker": "fish", "text": "That melody.", "delay": 1.8 },
-		# 46
 		{ "speaker": "fish", "text": "I haven't heard it in... a very long time.", "delay": 2.0 },
-		# 47
 		{ "speaker": "fish", "text": "...", "delay": 2.5, "emotion": "blank" },
-		# 48
 		{ "speaker": "fish", "text": "I thought I would've forgotten it by now.", "delay": 1.8 },
-		# 49
-		{ "speaker": "fish", "text": "I suppose I heard it too often to forget.", "delay": 1.8 },
-		# 50
-		{ "speaker": "fish", "text": "I used to think it was annoying.", "delay": 1.6 },
+		{ "speaker": "fish", "text": "His face changes to an expression you can't read", "delay": 1.8 },
+		{ "speaker": "fish", "text": "Annoying.", "delay": 1.6 },
 		# 51 — branch 2
 		{
 			"speaker": "player", "text": "",
 			"choices": [
 				{ "label": "Annoying...?",               "next": 52 },
-				{ "label": "You seem to remember it well.", "next": 63 }
+				{ "label": "You seem to remember it well", "next": 63 }
 			]
 		},
 
 		# ── SHEET BRANCH 2 OP1 ───────────────────────────────────────────
 		# 52
 		{ "speaker": "fish", "text": "It was.", "delay": 1.2 },
-		# 53
-		{ "speaker": "fish", "text": "Every day. Morning until late.", "delay": 1.6 },
-		# 54
+		{ "speaker": "fish", "text": "Every day. Morning until night", "delay": 1.6 },
 		{ "speaker": "fish", "text": "...", "delay": 2.0, "emotion": "blank" },
-		# 55
-		{ "speaker": "fish", "text": "I used to think that if I ignored it long enough, it would stop.", "delay": 2.2 },
-		# 56
-		{ "speaker": "fish", "text": "Or I would stop noticing it. Whichever came first.", "delay": 2.0 },
-		# 57
-		{ "speaker": "fish", "text": "One morning —", "delay": 1.4 },
-		# 58
-		{ "speaker": "fish", "text": "No song. No humming by the window where sunlight fell through the slats.", "delay": 2.4 },
-		# 59
-		{ "speaker": "fish", "text": "And I didn't say anything either.", "delay": 1.8 },
-		# 60
-		{ "speaker": "fish", "text": "The first week — I thought, good. I could enjoy the stillness again.", "delay": 2.2 },
-		# 61
-		{ "speaker": "fish", "text": "Second week. I noticed my eyes drifting toward the spot he sat.", "delay": 2.2 },
-		# 62
+		{ "speaker": "fish", "text": "I thought if I avoided listening to it.. or stop noticing it. Whichever came first. I would forget", "delay": 2.2 },
+		{ "speaker": "monologue", "text": "Mouths and close his mouth trying to say something but doesn't", "delay": 2.0 },
+		{ "speaker": "fish", "text": "One morning.", "delay": 1.4 },
+		{ "speaker": "fish", "text": "There was no song. No humming by the window where sunlight fell through the slats.", "delay": 2.4 },
+		{ "speaker": "fish", "text": "No obnoxious giggling", "delay": 1.8 },
+		{ "speaker": "fish", "text": "At first, it was nice. I could enjoy the stillness again.", "delay": 2.2 },
+		{ "speaker": "fish", "text": "Until, I noticed my eyes drifting toward the spot he sat.", "delay": 2.2 },
 		{ "speaker": "fish", "text": "And at some point, I started sitting there sometimes when nothing else called me away.", "delay": 2.4 },
 		# 63 — OP1 continues / OP2 jumps here... actually OP2 starts at 64, let me keep them separate
 		# re-index: OP1 ends, then OP2 starts at 71
@@ -1013,88 +971,59 @@ static func _teruDialogue() -> Array:
 		# still OP1:
 		# 63 (continuing from 62)
 		{ "speaker": "fish", "text": "Just... out of dumb reflex.", "delay": 1.8 },
-		# 64
-		{ "speaker": "fish", "text": "Like my body remembered what my mind forgot how to feel.", "delay": 2.2 },
-		# 65
+		{ "speaker": "fish", "text": "Like my body remembered what my mind forgot .. or avoided how to feel.", "delay": 2.2 },
 		{ "speaker": "monologue", "text": "A pause. He exhales once, slow.", "delay": 2.0 },
-		# 66
 		{ "speaker": "fish", "text": "...", "delay": 2.5, "emotion": "blank" },
-		# 67
-		{ "speaker": "monologue", "text": "He doesn't reach for the sheet. Doesn't ask for it back.", "delay": 1.8 },
-		# 68
+		{ "speaker": "monologue", "text": "He reaches for the sheet then stops. Comtemplating...", "delay": 1.8 },
 		{ "speaker": "fish", "text": "Keep it.", "delay": 1.4 },
-		# 69
-		{ "speaker": "monologue", "text": "He turns back to the water.", "delay": 1.6, "next": 29 },
+		{ "speaker": "monologue", "text": "He smiles very slightly", "delay": 1.6, "next": 29 },
 		# returns to item loop
 
 		# ── SHEET BRANCH 2 OP2 ───────────────────────────────────────────
 		# 70 (jumped to from step 51 OP2)
 		{ "speaker": "monologue", "text": "He stares at nothing. Not the player. Not the horizon. Just through something invisible, as if replaying a scene behind his eyes.", "delay": 3.0 },
-		# 71
-		{ "speaker": "fish", "text": "...Yeah.", "delay": 1.6, "emotion": "blank" },
-		# 72
-		{ "speaker": "fish", "text": "I remember how he'd hum off-key when tuning.", "delay": 2.0 },
-		# 73
-		{ "speaker": "fish", "text": "And how sunlight hit certain strings differently depending on the time of day.", "delay": 2.2 },
-		# 74
-		{ "speaker": "fish", "text": "I don't know why I remember that.", "delay": 1.8 },
-		# 75
+		{ "speaker": "fish", "text": "...Yeah. I suppose you could say that.", "delay": 1.6, "emotion": "blank" },
+		{ "speaker": "fish", "text": "He'd hum off-key when tuning by the window and the instrument..", "delay": 2.0 },
+		{ "speaker": "fish", "text": "During mid-day of autumn, rays of sunlight would certain strings differently like an - nevermind.s", "delay": 2.2 },
+		{ "speaker": "fish", "text": "I don't know why I remember that...", "delay": 1.8 },
 		{ "speaker": "fish", "text": "The light is different now.", "delay": 1.6 },
-		# 76
-		{ "speaker": "monologue", "text": "He looks back at the water.", "delay": 1.4 },
-		# 77
-		{ "speaker": "monologue", "text": "Something settles back into place on his face. The usual distance.", "delay": 2.0, "next": 29 },
+		{ "speaker": "monologue", "text": "He lets out a sigh, raises his gaze out above the sea at the sky", "delay": 1.4 },
+		{ "speaker": "monologue", "text": "Something settles back into place on his face. ", "delay": 2.0, "next": 29 },
 		# returns to item loop
 
 		# ── STONE PATH (steps 78–83) ──────────────────────────────────────
 		# 78
 		{ "speaker": "fish", "text": "A river stone.", "delay": 1.4 },
-		# 79
 		{ "speaker": "fish", "text": "One that has been in water long enough, the edges go.", "delay": 1.8 },
-		# 80
 		{ "speaker": "fish", "text": "Everything out here is worn down by something.", "delay": 1.8 },
-		# 81
 		{ "speaker": "monologue", "text": "He looks at it a moment longer than necessary.", "delay": 1.6 },
-		# 82
 		{ "speaker": "monologue", "text": "Then he holds it back out toward you.", "delay": 1.4 },
-		# 83
 		{
 			"speaker": "player", "text": "",
 			"choices": [
 				{ "label": "He hands it back.", "next": 84 }
 			]
 		},
-		# 84
 		{ "speaker": "fish", "text": "Things worn this long tend to hold.", "delay": 2.0, "next": 29 },
 		# returns to item loop
 
 		# ── FEATHER PATH (steps 85–89) ────────────────────────────────────
 		# 85
 		{ "speaker": "fish", "text": "Someone tied this too tightly.", "delay": 1.6 },
-		# 86
 		{ "speaker": "monologue", "text": "He glances at the binding.", "delay": 1.2 },
-		# 87
 		{ "speaker": "fish", "text": "It's been held in one position so long it can't sit right anymore.", "delay": 2.0 },
-		# 88
-		{ "speaker": "fish", "text": "You kept it anyway.", "delay": 1.4 },
-		# 89
+		{ "speaker": "fish", "text": "You kept it anyway", "delay": 1.4 },
 		{ "speaker": "monologue", "text": "He doesn't say anything else about it. He looks back toward the water, like the subject has already passed.", "delay": 2.0, "next": 29 },
 		# returns to item loop
 
 		# ── CARD PATH (steps 90–95) ───────────────────────────────────────
 		# 90
 		{ "speaker": "fish", "text": "No name on it.", "delay": 1.4 },
-		# 91
 		{ "speaker": "monologue", "text": "He studies it for a moment.", "delay": 1.2 },
-		# 92
 		{ "speaker": "fish", "text": "Things like this usually wait for someone else to define them.", "delay": 2.0 },
-		# 93
 		{ "speaker": "fish", "text": "Most of them stay unfinished.", "delay": 1.6 },
-		# 94
 		{ "speaker": "monologue", "text": "He hands it back.", "delay": 1.0 },
-		# 95
 		{ "speaker": "fish", "text": "Could be either.", "delay": 1.2 },
-		# 96
 		{ "speaker": "fish", "text": "Doesn't change what it is now.", "delay": 1.8, "next": 29 },
 		# returns to item loop
 	]

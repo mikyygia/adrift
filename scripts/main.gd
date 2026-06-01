@@ -40,7 +40,7 @@ func _ready() -> void:
 	#firstFishSeen = true
 	#GameState.grumpy_freed = true
 	#GameState.waiting_lady_won = true
-	##GameState.kid_freed = true
+	#GameState.kid_freed = true
 	#GameState.freed_souls.append("grumpy_old_man")
 	#GameState.freed_souls.append("first_fish")
 	#GameState.freed_souls.append("waiting_lady")
@@ -289,8 +289,7 @@ func onDialogueFinished(outcome: String) -> void:
 	
 	SoundManager.unduck_music()
 		
-	print("SOUL " + outcome + "\n" 
-		+ "Soul Bar: " + str(GameState.soul_bar) + "/" + str(GameState.soul_bar_max) + "\n");
+	print("SOUL " + outcome + "\n");
 
 # ---------------------------------------------------------------------------
 # Blackout -> fade into minigame
@@ -448,34 +447,103 @@ func _show_item_picker() -> void:
 		)
 		vbox.add_child(btn)
 	
+
 # ---------------------------------------------------------------------------
-# tarot lady
+# tarot lady — full sequence
 # ---------------------------------------------------------------------------
 func _begin_tarot() -> void:
-	fishingStatus.text = "A figure appears at the edge of the water..."
-	await get_tree().create_timer(2.0).timeout
+	SoundManager.duck_music()
+	characterBoat.visible = false
+	fishingStatus.visible = false
+	item_bar.visible = false
+	
+	# step 1 — rumble blackout
+	var canvas = CanvasLayer.new()
+	canvas.layer = 20
+	add_child(canvas)
+	
+	var overlay = ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(overlay)
+	
+	var rumble_label = Label.new()
+	rumble_label.text = "rumbling..."
+	rumble_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rumble_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	rumble_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	rumble_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	rumble_label.modulate.a = 0.0
+	canvas.add_child(rumble_label)
+	
+	var player_label = Label.new()
+	player_label.text = "What's happening...?!"
+	player_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	player_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	player_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	player_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	player_label.modulate.a = 0.0
+	canvas.add_child(player_label)
+	
+	SoundManager.play_sfx("rumble")  # add this to your SoundManager SOUNDS dict
+	
+	var t = create_tween()
+	t.tween_property(overlay, "color:a", 1.0, 0.8)
+	t.tween_property(rumble_label, "modulate:a", 1.0, 0.4)
+	t.tween_interval(1.5)
+	t.tween_property(rumble_label, "modulate:a", 0.0, 0.4)
+	t.tween_property(player_label, "modulate:a", 1.0, 0.4)
+	t.tween_interval(2.0)
+	t.tween_property(player_label, "modulate:a", 0.0, 0.5)
+	t.tween_callback(func():
+		canvas.queue_free()
+		_show_tarot_scene()
+	)
 
-	# manual override panel for your teammate to click
-	var panel = preload("res://scenes/tarot_manual.tscn").instantiate()
-	add_child(panel)
-	panel.tarot_won.connect(_on_tarot_won)
-	panel.tarot_lost.connect(_on_tarot_lost)
+func _show_tarot_scene() -> void:
+	var tarot = preload("res://scenes/tarot_scene.tscn").instantiate()
+	add_child(tarot)
+	tarot.tarot_won.connect(func():
+		tarot.queue_free()
+		_on_tarot_won()
+	)
+	tarot.tarot_lost.connect(func():
+		tarot.queue_free()
+		_on_tarot_lost()
+	)
 
 func _on_tarot_won() -> void:
-	# true ending if waiting lady item + music sheet
-	# good ending otherwise
-	var has_sheet = GameState.collected_items.get("kid_soundtrack", false)
+	var has_sheet    = GameState.collected_items.get("kid_soundtrack", false)
 	var has_lady_item = GameState.collected_items.get("blank_arcana", false)
-
-	if has_sheet and has_lady_item:
-		_show_ending("true")
-	else:
+	if GameState.freed_souls.size() >= 4:
 		_show_ending("good")
+	else:
+		_show_ending("bad")
 
 func _on_tarot_lost() -> void:
 	_show_ending("bad")
 
 func _show_ending(type: String) -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 25
+	add_child(canvas)
+	
+	var art = TextureRect.new()
+	art.set_anchors_preset(Control.PRESET_FULL_RECT)
+	art.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.modulate.a = 0.0
+	
+	match type:
+		"good":
+			art.texture = preload("res://assets/endings/good_ending.png")
+		"bad":
+			art.texture = preload("res://assets/endings/bad_ending.png")
+	
+	canvas.add_child(art)
+	
+	var t = create_tween()
+	t.tween_property(art, "modulate:a", 1.0, 1.5)
 	match type:
 		"true":
 			fishingStatus.text = "True Ending"

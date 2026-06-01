@@ -142,7 +142,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("12_trceg")
-text = "souls freed: "
+text = "souls resolved: "
 
 [node name="ItemBar" type="CanvasLayer" parent="Game" unique_id=1503744668]
 visible = false
