@@ -57,8 +57,6 @@ func _ready() -> void:
 	#GameState.collected_items["music_sheet"] = true
 	#item_bar.add_item("music_sheet", "Music Sheet", card_tex2)  
 	
-	
-	
 	########### ─────────────────────────────────────────── ###########
 	gameScene.visible = false;
 	skyScene.visible = true;
